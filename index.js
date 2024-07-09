@@ -2369,6 +2369,9 @@ app.get('/mt', (req, res) => {
 app.get('/profile', (req, res) => {
   res.sendFile(path.join(__dirname,  'profile.html'));
 });
+app.get('/chatbot', (req, res) => {
+  res.sendFile(path.join(__dirname,  'chatbot.html'));
+});
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname,  'home.html'));
 });
