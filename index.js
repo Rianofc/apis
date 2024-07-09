@@ -184,6 +184,63 @@ async function txt2imgAnime(data) {
     throw error;
   }
 }
+// ok22
+const {
+  GoogleGenerativeAI,
+  HarmCategory,
+  HarmBlockThreshold,
+} = require("@google/generative-ai");
+
+async function gptlogicnya(inputText, customPrompt) {
+  try {
+    const safetySettings = [
+      { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
+      { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
+      { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
+      { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE },
+    ];
+
+    const apiKey = 'AIzaSyD7ciBCgOP2DLXfpUDn-XrvoZnoUe0vZKc';
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", safetySettings });
+
+    const generationConfig = {
+      temperature: 1,
+      topP: 0.95,
+      topK: 64,
+      maxOutputTokens: 8192,
+      responseMimeType: "text/plain",
+    };
+
+    const history = [
+      {
+        role: 'user',
+        parts: [
+          {
+            text: customPrompt,
+          },
+        ],
+      },
+      {
+        role: 'model',
+        parts: [
+          { text: 'Oke' },
+        ],
+      },
+    ];
+
+    const chatSession = await model.startChat({
+      generationConfig,
+      history,
+    });
+
+    const result = await chatSession.sendMessage(inputText);
+    return result.response.text();
+  } catch (error) {
+    console.error("Error in gptlogic function:", error);
+    throw error;
+  }
+}
 // tt slide.
 function tiktokslide(url) {
   return new Promise(async (resolve) => {
@@ -1613,55 +1670,7 @@ async function mlstalk(id, zoneId) {
         })
     })
 }
-const {
-  GoogleGenerativeAI,
-  HarmCategory,
-  HarmBlockThreshold,
-} = require("@google/generative-ai");
 
-const apiKey = 'AIzaSyAz2fGwSGMNb0QN4ovSLYhIFHcAi1-e8CA';
-const genAI = new GoogleGenerativeAI(apiKey);
-const model = genAI.getGenerativeModel({
-  model: 'gemini-1.5-flash',
-});
-
-const generationConfig = {
-  temperature: 1,
-  topP: 0.95,
-  topK: 64,
-  maxOutputTokens: 8192,
-  responseMimeType: 'text/plain',
-};
-
-async function gemini(inputText, prompt) {
-  try {
-    const chatSession = await model.startChat({
-      generationConfig,
-      history: [
-        {
-          role: 'user',
-          parts: [
-            {
-              text: inputText,
-            },
-          ],
-        },
-        {
-          role: 'model',
-          parts: [
-            { text: prompt },
-          ],
-        },
-      ],
-    });
-
-    const result = await chatSession.sendMessage(inputText);
-    return result.response.text();
-  } catch (error) {
-    console.error('Error dalam fungsi gemini:', error);
-    throw error; 
-  }
-}
 async function getRequest(url) {
   const requestData = {
     url: url
@@ -2567,6 +2576,26 @@ app.get('/api/gemini', async (req, res) => {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
     let down = await bardnya(message) 
+    res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY",
+      result: down
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get('/api/gptlogic', async (req, res) => {
+  try {
+    const message = req.query.message;
+    if (!message) {
+      return res.status(400).json({ error: 'Parameter "massage" tidak ditemukan' });
+    }
+	  const message2 = req.query.prompt;
+    if (!message2) {
+      return res.status(400).json({ error: 'Parameter "prompt" tidak ditemukan' });
+    }
+    let down = await gptlogicnya(message, message2) 
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY",
