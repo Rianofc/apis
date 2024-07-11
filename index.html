@@ -191,34 +191,44 @@
 </a>
 <div aria-labelledby="alertsDropdown" class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in">
 <h6 class="dropdown-header">
-                  
-               Alerts Center
+                 Alerts Center
                 </h6>
 <a class="dropdown-item d-flex align-items-center">
 <div class="mr-3">
-         <img class="icon-circle bg-primary" src="https://files.catbox.moe/s9ozc5.jpg" style="max-width: 100px">               
+<div class="icon-circle bg-primary">
 <i class="fas fa-file-alt text-white"></i>
 </div>
 </div>
 <div>
-<div class="small text-gray-500">rianganzz</div>
-welcome to my rest apis⚡
+<div class="small text-gray-500">October 25, 2020</div>
+Online APi's Tools is finishing
 </div>
 </a>
 <a class="dropdown-item d-flex align-items-center">
 <div class="mr-3">
-        <img class="icon-circle bg-danger" src="https://files.catbox.moe/ikxxov.jpg" style="max-width: 100px">               
+<div class="icon-circle bg-warning">
 <i class="fas fa-exclamation-triangle text-white"></i>
 </div>
 </div>
 <div>
-<div class="small text-gray-500">pan pan</div>
-anjay keren bet semangat rian🔥
+<div class="small text-gray-500">October 25, 2020</div>
+Report if there are errors on this website to Admin
+</div>
+</a>
+<a class="dropdown-item d-flex align-items-center">
+<div class="mr-3">
+<div class="icon-circle bg-warning">
+<i class="fas fa-podcast text-white"></i>
+</div>
+</div>
+<div>
+<div class="small text-gray-500">November 1, 2020</div>
+In the future, Apikey UNLIMITED!
 </div>
 </a>
 <!-- <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a> -->
 </div>
-</li>
+</li>              
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
@@ -259,7 +269,7 @@ txt += "<p><b>Browser Name</b>: " + navigator.appName + "</p>";
 txt += "<p><b>Cookies Enabled</b>: " + navigator.cookieEnabled + "</p>";
 txt += "<p><b>Browser Online</b>: " + navigator.onLine + "</p>";
 txt += "<p><b>Platform</b>: " + navigator.platform + "</p>";
-txt += "<p><b>User-agent header</b>: " + navigator.userAgent + "</p>";
+txt += "<p><b>Your Ip</b>: " + navigator.userAgent + "</p>";
 var d = new Date();
 const jam = d.getHours();
 const menit = d.getMinutes();
@@ -280,8 +290,15 @@ const bulan = arrBulan[bln]
 * view.innerHTML = 'Selamat datang:)'
 * }
 */
+          fetch('https://api.ipify.org?format=json')
+    .then(response => response.json())
+    .then(data => {
+     const datanya = data.ip
+      document.write(datanya)
+    });
 document.write(txt)
-document.write("Date : "+ jam +":"+ menit +":"+ detik +"~"+ tgl +"-"+ bulan +"-"+ thn +"<br>Welcome back!")</script>
+document.write("Date : "+ jam +":"+ menit +":"+ detik +"~"+ tgl +"-"+ bulan +"-"+ thn +"<br>Welcome back!"        
+        </script>
           </div>
 
 <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
