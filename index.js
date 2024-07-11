@@ -2736,7 +2736,7 @@ app.get('/api/text2img', async (req, res) => {
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
-   const imageBuffer = await text2imgv55(prompt);
+   const imageBuffer = await text2imgv55(message);
         res.setHeader('Content-Type', 'image/jpg');
         res.send(imageBuffer);
   } catch (error) {
@@ -2883,23 +2883,7 @@ app.get('/api/tiktok2', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-app.get('/api/txt2img', async (req, res) => {
-    const text = req.query.query;
-    if (!text) {
-      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
-    }
-  const { data } = await axios.get("https://tti.photoleapapp.com/api/v1/generate?prompt=" + text) 
-	var resultg = data.result_url
-    var requestSettings = {
-        url: resultg,
-        method: 'GET',
-        encoding: null
-    };
-    request(requestSettings, function (error, response, body) {
-        res.set('Content-Type', 'image/jpg');
-        res.send(body);
-    }); 
-});
+
 app.get('/api/bingimg', async (req, res) => {
   try {
     const message = req.query.query;
