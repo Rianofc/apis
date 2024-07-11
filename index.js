@@ -392,6 +392,30 @@ async function InstagramStalkjir(name) {
     return null;
   }
 }
+async function text2imgv55(prompt) {
+    const vredenapi = "https://ai-api.magicstudio.com/api/ai-art-generator";
+    const body = `prompt=${encodeURIComponent(prompt)}`;
+
+    try {
+        const response = await fetch(vredenapi, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: body
+        });
+
+        if (response.ok) {
+            const imageBuffer = await response.buffer();
+            return imageBuffer;
+        } else {
+            const errorText = await response.text();
+            throw new Error(`Gagal mengambil gambar. Kode status: ${response.status}, Error: ${errorText}`);
+        }
+    } catch (error) {
+        throw error;
+    }
+	}
 // test
 async function gpt4o(prompt) {
     let session_hash = Math.random().toString(36).substring(2).slice(1)
@@ -2690,6 +2714,31 @@ app.get('/api/sfile-search', async (req, res) => {
       result 
     });
     })
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+app.post('/generate-image', async (req, res) => {
+    const { prompt } = req.body;
+
+    try {
+        const imageBuffer = await text2imgv55(prompt);
+        res.setHeader('Content-Type', 'image/jpg');
+        res.send(imageBuffer);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send(error.message);
+    }
+});
+app.get('/api/text2img', async (req, res) => {
+  try {
+    const message = req.query.query;
+    if (!message) {
+      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
+    }
+   const imageBuffer = await text2imgv55(prompt);
+        res.setHeader('Content-Type', 'image/jpg');
+        res.send(imageBuffer);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
