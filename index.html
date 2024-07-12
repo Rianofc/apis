@@ -269,13 +269,14 @@ In the future, Apikey UNLIMITED!
             </button> -->
         <script>
 arrBulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  const response = await fetch('https://api.ipify.org?format=json')
+    const data = response.json()        
 var txt = "";
 txt += "<p><b>Browser CodeName</b>: " + navigator.appCodeName + "</p>";
 txt += "<p><b>Browser Name</b>: " + navigator.appName + "</p>";
-txt += "<p><b>Cookies Enabled</b>: " + navigator.cookieEnabled + "</p>";
 txt += "<p><b>Browser Online</b>: " + navigator.onLine + "</p>";
 txt += "<p><b>Platform</b>: " + navigator.platform + "</p>";
-txt += "<p><b>Your Ip</b>: " + navigator.userAgent + "</p>";
+txt += "<p><b>Your Ip</b>: " + data.ip + "</p>";
 var d = new Date();
 const jam = d.getHours();
 const menit = d.getMinutes();
@@ -296,11 +297,7 @@ const bulan = arrBulan[bln]
 * view.innerHTML = 'Selamat datang:)'
 * }
 */
-      const response = await fetch('https://api.ipify.org?format=json')
-    const data = response.json()
-     const datanya = data.ip
-      document.write("Ip : "+ datanya +":)
-    
+   document.write(txt)       
 document.write("Date : "+ jam +":"+ menit +":"+ detik +"~"+ tgl +"-"+ bulan +"-"+ thn +"<br>Welcome back!"        
         </script>
           </div>
@@ -369,9 +366,9 @@ document.write("Date : "+ jam +":"+ menit +":"+ detik +"~"+ tgl +"-"+ bulan +"-"
                 </div>
                 <div class="card-body">
                   <h6><br>Creator : <a href="https://instagram.com/rianganzz">rianganzz</a><br> 
-                  <h6><br>CHAT BOT : <a href="/chatbot">click me!</a><br>
+                  <h6><br>Chat Bot : <a href="/chatbot">click me!</a><br>
                   <h6><br>Website ini hanya untuk saya belajar API ^_^<br>Maaf, Jika masih ada beberapa yang error</a><br>
-                  <h6><br>Thanks To : <br>Tobz<br>   St4rz<br>   Rafly<br>   Vinz<br>  Mario</a><br>
+                  <h6><br>Thanks To : <br>bili store<br>   pan-pan<br>   rianganzz<br>   Vinz<br>  dann</a><br>
                   <h6><br><br><br>Jika anda menemukan bug <i class="fa fa-bug"></i> langsung lapor ke <a href="https://wa.me/62815293692739">Saya</a> Oke!</h6>
                 </div>
               </div>
