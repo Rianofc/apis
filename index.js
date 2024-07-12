@@ -44,15 +44,33 @@ const ocrapi = require("ocr-space-api-wrapper");
 const axios = require('axios')
 const creatot = `RIANGANZ`
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './file/');
+  destination: function (req, file, cb) {
+    cb(null, 'file/');
   },
-  filename: (req, file, cb) => {
-    cb(null, `${uuidv4()}-${file.originalname}`);
+  filename: function (req, file, cb) {
+    const uniqueName = uuidv4() + path.extname(file.originalname);
+    cb(null, uniqueName);
   },
 });
-const uploader = multer({
-	storage: storage
+
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = /jpeg|jpg|png|webp|mp3|mp4/;
+  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = allowedTypes.test(file.mimetype);
+
+  if (extname && mimetype) {
+    return cb(null, true);
+  } else {
+    cb(new Error('File type not allowed'));
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+});
+
+
 });
 // gaktau
 function getRandom(hm) {
@@ -2393,6 +2411,9 @@ app.get('/mt', (req, res) => {
 app.get('/profile', (req, res) => {
   res.sendFile(path.join(__dirname,  'profile.html'));
 });
+app.get('/upload', (req, res) => {
+  res.sendFile(path.join(__dirname,  'upload.html'));
+});
 app.get('/chatbot', (req, res) => {
   res.sendFile(path.join(__dirname,  'chatbot.html'));
 });
@@ -2423,18 +2444,6 @@ app.get('/play/spotify', (req, res) => {
 app.get('/dashboard', (req, res) => {
   res.sendFile(path.join(__dirname,  'docs2.html'));
 });
-app.post('/upload', uploader.single('file'), async (req, res) => {
- res.status(400).send('No file uploaded.');
-	  const file = req.file
-	  const fileExtension = '.' + file.originalname.split('.').pop();
-	
-	  const fileUrl = `https://apikita.exonity.xyz/file/${fileExtension}`;
-	  const responseData = {
-        fileUrl: fileUrl, 
-        message: "File uploaded successfully",
-      };
-      res.json(responseData);
-  });
 app.get('/api/ragbot', async (req, res) => {
   try {
     const message = req.query.message;
@@ -2505,6 +2514,18 @@ app.get('/api/blackbox', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+app.post('/cdn-upload', upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'File upload failed' });
+  }
+
+  res.json({ url: `https://apikita.exonity.xyz/${req.file.filename}` });
+});
+
+app.get('/file/:filename', (req, res) => {
+  const filepath = path.join(__dirname, 'file', req.params.filename);
+  res.sendFile(filepath);
+})
 app.post('/download', async (req, res) => {
     const { url, resolution } = req.body;
 
