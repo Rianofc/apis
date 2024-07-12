@@ -2477,7 +2477,22 @@ app.get('/api/degreeguru', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
+app.get('/api/ttSearch', async (req, res) => {
+  try {
+    const { message }= req.query;
+    if (!message) {
+      return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
+    }
+    const video = await ttSearch(message);
+    res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY",
+      data: { video }
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 // Endpoint untuk smartContract
 app.get('/api/smartcontract', async (req, res) => {
   try {
@@ -2518,7 +2533,7 @@ app.post('/cdn-upload', upload.single('file'), (req, res) => {
     return res.status(400).json({ message: 'File upload failed' });
   }
 
-  res.json({ url: `https://apikita.exonity.xyz/${req.file.filename}` });
+  res.json({ url: `https://apikita.exonity.xyz/file/${req.file.filename}` });
 });
 
 app.get('/file/:filename', (req, res) => {
