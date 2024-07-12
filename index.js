@@ -71,7 +71,6 @@ const upload = multer({
 });
 
 
-});
 // gaktau
 function getRandom(hm) {
     return `${Math.floor(Math.random() * 10000)}${hm}`
