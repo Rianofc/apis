@@ -5,6 +5,7 @@
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta property="og:image" content="https://telegra.ph/file/9629c19418407c11aa8f1.jpg">
 <link rel="shortcut icon" href="https://telegra.ph/file/9629c19418407c11aa8f1.jpg" />     
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
     <title>exonity REST API</title>
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -15,14 +16,17 @@
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
 }
-
+video {
+        width: 390px;
+        height: 690px;
+        display: none;
+}
 section {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url(https://cdn.sazumi.moe/file/whvavd.gif);
-    background-size: cover;
+    background-color: black;
     background-position: center;
     background-attachment: fixed;
     padding: 40px;
@@ -271,6 +275,12 @@ header ul li a {
 </head>
 <body>
     <section>
+           <div class="container">
+        <div class="a">
+        <video id="myVideo">
+          <source src="https://v16m-default.akamaized.net/ec45fe860309689df5aa457086728105/66919049/video/tos/useast2a/tos-useast2a-ve-0068c001/oYQ8wLWIwCOJbgjqx2IAlFECfeDSrcgEifSFVS/?a=0&bti=OUBzOTg7QGo6OjZAL3AjLTAzYCMxNDNg&ch=0&cr=0&dr=0&lr=all&cd=0%7C0%7C0%7C0&cv=1&br=3464&bt=1732&cs=0&ds=6&ft=XE5bCqT0majPD12V6EX73wUOx5EcMeF~O5&mime_type=video_mp4&qs=0&rc=OmRpZDszaWVoOTdmOjg5aEBpam9mb3I5cms6cDMzNzczM0AxNmFgLV4yNWExX2AtYDJfYSNoal9sMmRjY3BgLS1kMTZzcw%3D%3D&vvpl=1&l=202407121421056EB4013AB6CF9F223AE5&btag=e00088000" type="video/mp4">
+        </video>
+        </div>
         <div class="container">
             <header>
                 <a href="/dashboard" class="logo">exonity ᴀᴘɪ</a>
@@ -295,5 +305,23 @@ header ul li a {
             <p class="®2024. exonity. all rights reserved"></p>
         </div>
     </section>
+      <script>
+var vid = document.getElementById("myVideo");
+      function play(){
+              vid.play();  
+                        }
+      
+const swals = Swal.mixin({
+                            allowOutsideClick: false,
+                        });
+async function mulai(){
+                                await swals.fire('Hallo');
+                                setTimeout(showDiv, 300);vid.play();             
+                        }
+                        mulai();
+          function showDiv() {
+              document.getElementById("myVideo").style.display='block';
+            }
+      </script>
 </body>
                         </html>
