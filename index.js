@@ -10,6 +10,7 @@ const os = require('os');
 const {
   v4: uuidv4
 } = require("uuid")
+const got = require('got')
 const bodyParser = require('body-parser');
 const { load } = require('cheerio');
 const { stringify } = require('qs');
@@ -204,7 +205,7 @@ async function txt2imgAnime(data) {
 // okhttp22
 async function capcutdetail(link) {
   try {
-    const response = await axios.get(link);
+    const response = await got(link);
     const html = response.body;
     const $ = cheerio.load(html);
     const elements = $("main#main div.ct-container-full article");
@@ -218,7 +219,7 @@ async function capcutdetail(link) {
       title: $(element).find("h2").text().trim(),
       videoSrc: $(element).find("video source").attr("src"),
       description: $(element).find(".entry-content p").text().trim()
-    }))
+    })).get() 
   } catch (error) {
     console.log(error);
     throw error;
@@ -281,7 +282,7 @@ async function numberScammer(number) {
                 'Accept-Encoding': 'gzip, deflate, br, zstd',
                 'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7,af;q=0.6',
                 'Cache-Control': 'max-age=0',
-                'Cookie': 'Your_cookie',
+                'Cookie': 'eyJpdiI6IkQ4NHpSanlIdHA1ejVtU2NuNnkvWnc9PSIsInZhbHVlIjoiWDhjdkJuTkVVVkJ1ZlBMd1UyV0pEUlpBN0M1b0dXNkVHbVVST0FmQVRPK21YSDI3a0pqck1QbDF1N1FvMTJIanZKWWhBQ0JLSzU2YlhQWlc4NFZFTzJYclhQTG14VzZ5bko1cmVCRCtVdVNNbk10ajFCMzFlNGVJOG1wdXZ0MlkiLCJtYWMiOiIyZjNkYTUxMDkxM2U3N2ZlOTM4YTA5YjVlN2QyYzkwZTAxMDJiZDJlYmU0NDA2YzczZTk4NjY0Y2M0MmY2ZTg3IiwidGFnIjoiIn0',
                 'Priority': 'u=0, i',
                 'Referer': 'https://www.kredibel.com/',
                 'Upgrade-Insecure-Requests': '1',
