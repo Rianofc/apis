@@ -273,6 +273,64 @@ message: error
 }
 }
 }
+async function numberScammer(number) {
+    try {
+        const response = await axios.get(`https://www.kredibel.com/phone/id/${number}`, {
+            headers: {
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                'Accept-Encoding': 'gzip, deflate, br, zstd',
+                'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7,af;q=0.6',
+                'Cache-Control': 'max-age=0',
+                'Cookie': 'Your_cookie',
+                'Priority': 'u=0, i',
+                'Referer': 'https://www.kredibel.com/',
+                'Upgrade-Insecure-Requests': '1',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+            }
+        });
+
+        const $ = cheerio.load(response.data);
+
+        const phoneNumber = $('h1').first().text().trim();
+        const accountName = $('h2.bank-account-name').text().trim();
+        const serviceProvider = $('.text-muted:contains("Telkomsel")').text().trim();
+        const rating = $('.stars-hero .text-muted').text().trim();
+        const score = $('.card-stats-item:contains("Kredibel Score") .card-stats-value').text().trim();
+        const reportStatus = $('.text-danger').text().trim();
+        const rate = $('div.profile-stats-value').text().trim();
+
+        const pemilik = $('.info:contains("Pemilik") .info-value').text().trim();
+        const kodeNegara = $('.info:contains("Kode Negara") .info-value').text().trim();
+        const nomorTelepon = $('.info:contains("Nomor Telepon") .info-value').text().trim();
+        const provider = $('.info:contains("Provider") .info-value').text().trim();
+        const tipeProvider = $('.info:contains("Tipe Provider") .info-value').text().trim();
+        const lokasi = $('.info:contains("Lokasi") .info-value').text().trim();
+
+        const details = {
+            pemilik,
+            kodeNegara,
+            nomorTelepon,
+            provider,
+            tipeProvider,
+            lokasi
+        };
+
+        const data = {
+            phoneNumber,
+            accountName,
+            serviceProvider,
+            rating,
+            score,
+            reportStatus,
+            rate,
+            details
+        };
+
+        return data
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 // 👥
 const {
   GoogleGenerativeAI,
@@ -3627,7 +3685,7 @@ app.get('/api/remini', async (req, res) => {
     if (!message) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
-   let a = await getRequest(message)
+   let a = await capcutdetail(message)
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY", 
