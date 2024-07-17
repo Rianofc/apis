@@ -2426,7 +2426,7 @@ async function mlbb33(userId, zoneId) {
 // batas
 // batas
 async function bardnya(query) {
-  const COOKIE_KEY = "g.a000kAizwbBdNbMHiOjpi3wG6gRWpkyc_b7CpDipldhMCt_UJIpDxrcWnqL7c6jCY-ooclL3NwACgYKAXgSARMSFQHGX2MiZAtXZ3cvSt7VxKSgDFmGzxoVAUF8yKqiRmRoIsjmTMIJrvT-Pm6l0076";
+  const COOKIE_KEY = "g.a000lwj7oSsieBZhQsvihRsagiQzCY3yqz24DZQk6sGSmnv8Zj8OCdjqSuxpMbCcnt8Q0GlaYAACgYKAWcSARASFQHGX2MiGxFils2nA3LAqjH-Tf8buhoVAUF8yKoM0fpLrz8NdcvprP_Ox64B0076";
   const psidCookie = '__Secure-1PSID=' + COOKIE_KEY;
   const headers = {
     "Host": "gemini.google.com",
