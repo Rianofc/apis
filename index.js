@@ -558,6 +558,7 @@ function tiktokslide(url) {
   }
   })
 	  }
+
 // ttS scraper
 function ttsjir(text, lang = 'id') {
   console.log(lang, text)
@@ -2450,6 +2451,43 @@ async function bardnya(query) {
   return answer;
 };
 // stay healthy (≧▽≦)
+async function githubStalk5t6(user) {
+    try {
+        
+        const response = await axios.get(`https://github.com/${user}`);
+
+        
+        const $ = cheerio.load(response.data);
+
+        
+        const name = $('span.p-name').text().trim() || null
+        const username = $('span.p-nickname').text().trim() || null
+        const bio = $('div.p-note.user-profile-bio').text().trim() || null
+        const location = $('li[itemprop="homeLocation"]').text().trim() || null
+        const email = $('li[itemprop="email"]').text().trim() || null
+        const website = $('li[itemprop="url"]').text().trim() || null
+        const organizations = $('a[data-hovercard-type="organization"]').map((_, el) => $(el).text()).get() || null
+
+       const repoCount = $('a > .UnderlineNav-item.selected > .Counter').text().trim();
+        const avatar = $('img.avatar-user').attr('src');
+
+        const stalkInfo = {
+            avatar,
+            name,
+            username,
+            bio,
+            location,
+            email,
+            website,
+            organizations
+        };
+
+        return stalkInfo;
+    } catch (error) {
+        console.error('Error scraping GitHub:', error.message);
+        throw error;
+    }
+}
 async function igdlv2(url) {
   return new Promise(async (resolve, reject) => {
     const payload = new URLSearchParams(
@@ -2920,7 +2958,7 @@ app.get('/api/sfile', async (req, res) => {
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
-    const asu = await sfileDl(message)
+    const asu = await sfilemobi(message)
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY",
@@ -3172,14 +3210,14 @@ app.get('/api/githubstalk', async (req, res) => {
     if (!id) {
       return res.status(400).json({ error: 'id nya mana?' });
     }
-    let result = await axios.get(`https://api.github.com/users/${id}`)
+    let result = await githubStalk5t6(id) 
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY",
       result
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.id });
   }
 });
 app.get('/api/stablediff', async (req, res) => {
