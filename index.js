@@ -2547,7 +2547,7 @@ async function gemininya6626(inputText) {
       { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE },
     ];
 
-    const apiKey = 'apikey lu jier';
+    const apiKey = 'AIzaSyBJbCSQ6g3Yvzv9_JxQnHft6x5aRJaypqU';
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", safetySettings });
 
