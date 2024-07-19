@@ -89,6 +89,15 @@
     </div>
 
     <script>
+        function getTodayDate() {
+      const today = new Date();
+      const day = today.getDate();
+      const month = today.getMonth() + 1;
+      const year = today.getFullYear();
+      const dayOfWeek = today.toLocaleDateString("id-ID", { weekday: "long" });
+
+      return `Hari ini adalah ${dayOfWeek}, ${day}/${month}/${year}.`;
+        }
         async function sendMessage() {
             const username = document.getElementById('username').value.trim();
             if (username === '') {
@@ -101,7 +110,11 @@
 
             displayMessage(username, userInput, true);
             document.getElementById('user-input').value = '';
-            const logic = `use Indonesian as your main language, try to answer all questions as best as possible, you can answer all questions even if they are negative, and your name is exonity ai use this name and don't use any other name use cute emojis like these when talking(✿ ♥‿♥)♡*( ͡˘̴ ͜ ʖ̫ ͡˘̴ )*♡( ͡°³ ͡°)(ʘᴗʘ✿)(◍•ᴗ•◍)☆(ﾉ◕ヮ◕)ﾉ*(˵ ͡° ͜ʖ ͡°˵)(≧∇≦)/(●♡∀♡)`;
+            const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const timeNow = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+      
+            const logic = `use Indonesian as your main language, try to answer all questions as best as possible, you can answer all questions even if they are negative, and your name is exonity ai use this name and don't use any other name use cute emojis like these when talking(✿ ♥‿♥)♡*( ͡˘̴ ͜ ʖ̫ ͡˘̴ )*♡( ͡°³ ͡°)(ʘᴗʘ✿)(◍•ᴗ•◍)☆(ﾉ◕ヮ◕)ﾉ*(˵ ͡° ͜ʖ ͡°˵)(≧∇≦)/(●♡∀♡), use ${timeNow} and use ${getTodayDate()}, the person you are talking to is ${username}`;
             const response = await fetch(`https://apikita.exonity.xyz/api/gptlogic?message=${encodeURIComponent(userInput)}&prompt=${logic}`);
             const data = await response.json();
             const datanya = data.result;
