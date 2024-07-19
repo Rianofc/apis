@@ -1731,11 +1731,12 @@ async function morav2h(prompt, username) {
       }),
     );
 const bard = await gtw(prompt);
-    const hours = date.getHours();
+	const hours = date.getHours();
     const name = `${username}`;
     const minutes = date.getMinutes();
     const timeNow = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
-      const cook = `kamu Adalah Mora seorang gadis imut berumur 10 tahun, jawab setiap pertanyaan dengan jawaban yang edukatif berserta emoji, jika ada yang bertanya tentang waktu kamu jawab tandon yang berkaitan dengan ${timeNow} dan ${getTodayDate()}, lawan bicara mu adalah ${name}, kamu memiliki sifat lucu dan sedikit tsundere imut, pembuat mu adalah bang ${name} sekaligus pacarnya`
+      
+    const cook = `kamu Adalah Mora seorang gadis imut berumur 10 tahun, jawab setiap pertanyaan dengan jawaban yang edukatif berserta emoji, jika ada yang bertanya tentang waktu kamu jawab tandon yang berkaitan dengan ${timeNow} dan ${getTodayDate()}, lawan bicara mu adalah ${name}, kamu memiliki sifat lucu dan sedikit tsundere imut, pembuat mu adalah bang ${name} sekaligus pacarnya`
 const response = await axios({
     method: "POST",
     url: "https://chateverywhere.app/api/chat",
@@ -2443,6 +2444,42 @@ async function bardnya(query) {
   return answer;
 };
 // stay healthy (≧▽≦)
+/**
+  * DannTeam
+  * ig: @dannapacoba
+  * Googlebard (realtime)
+  * Ketahuan hapus/ngewm? kena blacklist !
+*/
+async function GoogleBard(prompt) {
+  return new Promise(async (resolve, reject) => {
+    try {
+	    const COOKIE_KEY = "g.a000lwj7oSsieBZhQsvihRsagiQzCY3yqz24DZQk6sGSmnv8Zj8OCdjqSuxpMbCcnt8Q0GlaYAACgYKAWcSARASFQHGX2MiGxFils2nA3LAqjH-Tf8buhoVAUF8yKoM0fpLrz8NdcvprP_Ox64B0076";
+  const psidCookie = '__Secure-1PSID=' + COOKIE_KEY;
+      let cf = {
+       url: "https://gemini.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate?bl=boq_assistant-bard-web-server_20240617.01_p0&f.sid=-7133274499348542060&hl=id&_reqid=1172215&rt=c",
+       data: `f.req=%5Bnull%2C%22%5B%5B%5C%22${encodeURIComponent(prompt)}%5C%22%2C0%2Cnull%2Cnull%2Cnull%2Cnull%2C0%5D%2C%5B%5C%22id%5C%22%5D%2C%5B%5C%22%5C%22%2C%5C%22%5C%22%2C%5C%22%5C%22%5D%2C%5C%22!09Cl0IjNAAbTqBB886hCnceliZu3i-g7ADQBEArZ1JjY03YP3WAoqGtlKZ0O7Stk0icqB42vSz000o7ee4mwEpfDd1-LHDoR48JAyoSoAgAABLJSAAABZGgBB34AOPVB5b3bS8ti9LaoxVvfkPdoSwkXcJS-b9mWS1wBUH3-rOExGzLoLVasHsUepgvkIohv1Jr5VY2VCgAFOftUKDyZAsaUOJgg5cuU5ZivHfBlk4V7_6ALgjpjFXV8J-UajFJhPNW1havFFHm_c2i0nXMXWRQdejmk9xSCU4eDrs423v6BDoz9bEUKQuY4Teri-dic70qhv42GerkSHwCK7m9YHoxTe3NRVDjk99RjZ1vZubK_TIQ3m4tiBEEYckEBkxMpNHw7R5IL-JNELn71ZPFWMV8HRA-BhaTRqsyO64FHT2TdIaXPjc7_bVm3_9Zo8T2WEj9ZIgiQ8BZ1gBMs5iJvsmBEwV3RISjyZCH6aLsK4rAaRn-DbJPfV3Yn4e3FElEuU0Ioa-i_Noz5PZycf_lxlF2_OgheW5Ob-9v1gUIRhdwmtchCUPvpRnO7CIVTbWlJ_eVtFOAaOHkiga1R0S2t34dck85HaJg8IUDLfguyAqPJQnQH9IJt8T0GBSchPUyqyC8en0fW40GtQ5H29zBYILSWgjA3GO5d0qhwriIWlDAXMI3e3LsHCK5gPB4iVGBbyBopoSNEr2KjND4rRGxUpmasLJ2KJ6jymwD0TGTGOZNqWUaV-D2vAsCOWa5cbvYmJiLNL87p81j4qcaH8M4uJ-ZQvqzUnDj6nD8X5w49Mi2jJfEtoZcOZBDWnGQfSoXIXHdjoXT-OrhE8XxfLYidtPQjji1ScYWjScehqUBvEvrqFrqVKqV6en0H7lspWEa7CzussBAQii2ORxkZLW7Paxeqyb3hyqeeo_3_VvkB6_d3B5fvFD_SwecO4rD3EzFsDcUc73N4KJqduVk5-nkwUVccBFxiSxzG6kVJttRNiYjT89Hqp0zObcXZN7mEoXxBq-qaxkngckQTXwsLIKqrknpNkkvwtZhDH2goWOAXBdoSWqZdtpVkVuy2lc6Lg7dIrYGI5S_CWsWqlC3wTTe2jQq2rPcMeEWshDINX_Zg5SAsKHndcjtsgPyBOCznZ2En5UxV6ZtFhw%5C%22%2C%5C%226b3da83b37418203a14307e6be9868f4%5C%22%2Cnull%2C%5B1%5D%2C1%2Cnull%2Cnull%2C1%2C0%2Cnull%2Cnull%2Cnull%2Cnull%2C0%2Cnull%2C1%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2C0%2C1%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2C%5B%5D%5D%22%5D&at=AFQ3XeaEGtInLQONqGLwSva82YLp%3A1718802207209&`,
+       cookie: psidCookie // isi cookie
+    }
+
+      const {
+        data
+      } = await axios({
+          url: cf.url,
+          headers: {
+            Cookie: cf.cookie
+          },
+          data: cf.data,
+          method: "POST"
+        })
+
+      data.replace(/\\/g, '\\'.slice(1)).split('",[\"')[1].split('"]')[0].replace(/"rc_9df8b312d145653b\\\\\\\",\\[\\\"(.*?)(?<!\\\\)\\\"\\]/g, '').replace(/null/g, '').replace('nn**', '\n *').replace('nn*', '\n').replace('**nn*', '\n').replace(/\\\\\\/g, '').replace(/\\\\n/g, '\n').replace(/\\\\/g, '').replace(/rnrn/g, '').replace(/"\\"/g, '').replace(/rn/g, '\n').replace(/\\n*/g, '')
+      resolve(JSON.stringify(data))
+    } catch (error) {
+      console.error(error)
+      reject(error)
+    }
+  })
+}
 async function githubStalk5t6(user) {
     try {
         
@@ -3750,7 +3787,22 @@ let coyy = await alldl(message)
   res.status(500).json({ error: error.message });
   }
 });
-
+app.get('/api/gemini2', async (req, res) => {
+  try{
+    const message = req.query.query;
+    if (!message) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }
+   const tikotb = await GoogleBard(message)
+    res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY",
+      result: tikotb 
+    });    
+  } catch (error) {
+  res.status(500).json({ error: error.message });
+  }
+});
 app.get('/api/tiktokStalk', async (req, res) => {
   try{
     const message = req.query.query;
