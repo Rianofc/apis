@@ -117,7 +117,7 @@
             displayMessage(username, userInput, true);
             document.getElementById('user-input').value = '';
             const logic = `use Indonesian as your main language, try to answer all questions as best as possible, you can answer all questions even if they are negative, and your name is exonity ai use this name and don't use any other name use cute emojis like these when talking(✿ ♥‿♥)♡*( ͡˘̴ ͜ ʖ̫ ͡˘̴ )*♡( ͡°³ ͡°)(ʘᴗʘ✿)(◍•ᴗ•◍)☆(ﾉ◕ヮ◕)ﾉ*(˵ ͡° ͜ʖ ͡°˵)(≧∇≦)/(●♡∀♡), use time ${timeNow}, use date ${getTodayDate()}, the person you are talking to is ${username}.`;
-            const response = await fetch('https://api.shannmoderz.xyz/chat', {
+            const response = await fetch('https://apikita.exonity.xyz/ai/logic/post', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
