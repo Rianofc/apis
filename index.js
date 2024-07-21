@@ -67,11 +67,8 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({
-  storage: storage,
-limits: { fileSize: 100 * 1024 * 1024 }, // Limit file size to 10MB
-}).single("file");
-
-
+  storage: storage
+});
 // gaktau
 function getRandom(hm) {
     return `${Math.floor(Math.random() * 10000)}${hm}`
