@@ -4176,15 +4176,15 @@ app.get('/api/uprole', async (req, res) => {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
 	
-  const text1 = req.query.text1;
-    if (!text1) {
+  const text = req.query.name;
+    if (!text) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
-	const text2 = req.query.text2;
+	const text2 = req.query.level;
     if (!text2) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
-	const text3 = req.query.text3;
+	const text3 = req.query.level2;
     if (!text3) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
@@ -4192,19 +4192,17 @@ app.get('/api/uprole', async (req, res) => {
     if (!avatar) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }  
-	const shiroo = new canvafy.LevelUp()
-        .setLevels(text1, text2)
-        .setUsername(text3)
-        .setBackground('image', background)
-        .setAvatar(avatar)
-        .setBorder('#A9A9A9')
-        .setAvatarBorder('#A9A9A9')
-        .setOverlayOpacity(1.0);
-
-      shiroo.build()
-        .then((data) => {
+	const levelUp = await new canvafy.LevelUp()
+    .setAvatar(avatar)
+    .setBackground("image", background)
+    .setUsername(text)
+    .setBorder("#000000")
+    .setAvatarBorder("#ff0000")
+    .setOverlayOpacity(0.7)
+    .setLevels(text2, text3)
+    .build();
           res.set('Content-Type', 'image/png');
-        res.send(data);	
+        res.send(levelUp);	
         });
     
             
