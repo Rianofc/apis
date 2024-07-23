@@ -10,6 +10,7 @@ const os = require('os');
 const {
   v4: uuidv4
 } = require("uuid")
+const canvafy = require('canvafy');
 const got = require('got')
 const bodyParser = require('body-parser');
 const { load } = require('cheerio');
@@ -3004,8 +3005,8 @@ app.get('/api/lirik', async (req, res) => {
 });
 app.post('/ai/logic/post', async (req, res) => {
 	try {
-		const logic = req.logic;
-                const message = req.message;
+		const logic = req.body;
+                const message = req.body;
 		if (!logic) {
 			return res.status(400).send('No file uploaded.');
 		}
@@ -3812,7 +3813,7 @@ app.get('/api/tebakgambar', async (req, res) => {
   res.status(500).json({ error: error.message });
   }
 });
-app.get('/simi', async (req, res) => {
+app.get('/api/simi', async (req, res) => {
   try{
     const message = req.query.query;
     if (!message) {
