@@ -4170,7 +4170,7 @@ app.get('/api/welcome', async (req, res) => {
         res.send(body);
 });
 });
-app.get('/api/uprole', async (req, res) => {
+app.get('/api/levelupcard', async (req, res) => {
   const background = req.query.background;
     if (!background) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
@@ -4203,7 +4203,7 @@ app.get('/api/uprole', async (req, res) => {
     .build();
           res.set('Content-Type', 'image/png');
         res.send(levelUp);	
-        });
+        
     
             
 });
