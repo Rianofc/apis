@@ -3004,26 +3004,14 @@ app.get('/api/lirik', async (req, res) => {
   }
 });
 app.post('/ai/logic/post', async (req, res) => {
-	try {
 		const { logic } = req.body;
 		const { message } = req.body;
-
-	                if (!logic) {
-			return res.status(400).send('No file uploaded.');
-		}
-               if (!message) {
-			return res.status(400).send('No file uploaded.');
-		}
-		let down = await gptlogicnya(logic, message) 
-    res.status(200).json({
-      status: 200,
-      creator: "RIAN X EXONITY",
-      result: down
+		const cfy = await gptlogicnya(logic, message) 
+          res.status(200).json({
+          status: 200,
+          creator: "RIAN X EXONITY",
+          result: cfy
     });
-	} catch (error) {
-		console.error(error);
-		res.json(mess.error)
-	}
 });
 app.get('/api/gptlogic', async (req, res) => {
   try {
@@ -4222,11 +4210,6 @@ app.get('/api/uprole', async (req, res) => {
             
 });
 app.get('/api/spotifycard', async (req, res) => {
-  const background = req.query.background;
-    if (!background) {
-      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
-    }
-	
   const text = req.query.title;
     if (!text) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
@@ -4236,7 +4219,7 @@ app.get('/api/spotifycard', async (req, res) => {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }  
 	const p = await new canvafy.Spotify()
-        .setTitle(title)
+        .setTitle(text)
         .setAuthor("Spotify Downloader")
         .setTimestamp(40, 100)
         .setOverlayOpacity(0.8)
