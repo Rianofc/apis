@@ -3005,8 +3005,8 @@ app.get('/api/lirik', async (req, res) => {
 });
 app.post('/ai/logic/post', async (req, res) => {
 	try {
-		const logic = req.body;
-                const message = req.body;
+		const logic = req.body.logic;
+                const message = req.body.message;
 		if (!logic) {
 			return res.status(400).send('No file uploaded.');
 		}
@@ -4180,6 +4180,45 @@ app.get('/api/welcome', async (req, res) => {
         res.set('Content-Type', 'image/png');
         res.send(body);
 });
+});
+app.get('/api/uprole', async (req, res) => {
+  const background = req.query.background;
+    if (!background) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }
+	
+  const text1 = req.query.text1;
+    if (!text1) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }
+	const text2 = req.query.text2;
+    if (!text2) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }
+	const text3 = req.query.text3;
+    if (!text3) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }
+	const avatar = req.query.avatar;
+    if (!avatar) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }  
+	const shiroo = new canvafy.LevelUp()
+        .setLevels(text2, text1)
+        .setUsername(text3)
+        .setBackground('image', background)
+        .setAvatar(avatar)
+        .setBorder('#A9A9A9')
+        .setAvatarBorder('#A9A9A9')
+        .setOverlayOpacity(1.0);
+
+      shiroo.build()
+        .then((data) => {
+          res.set('Content-Type', 'image/png');
+        res.send(data);	
+        });
+    
+            
 });
 app.get('/api/waifu', async (req, res) => {
   var response = await fetch(`https://api.waifu.pics/sfw/waifu`);
