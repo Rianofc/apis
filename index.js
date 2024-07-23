@@ -2735,11 +2735,11 @@ app.get('/status', (req, res) => {
   res.json(stats);
 });
 app.get('/listfile', (req, res) => {
-  const { stdout: totalSize } = exec(`du -sh /root/apis/file`);
-const { stdout: fileCount } = exec(`find /root/apis/file -type f | wc -l`);
+  const { stdout: totalSize } = exec(`du -sh /file`);
+const { stdout: fileCount } = exec(`find /file -type f | wc -l`);
 const statsu = {
-file: stdout,
-size: stdout
+file: fileCount,
+size: totalSize
     };
   res.json(statsu);
 });
