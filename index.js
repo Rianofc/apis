@@ -3005,9 +3005,10 @@ app.get('/api/lirik', async (req, res) => {
 });
 app.post('/ai/logic/post', async (req, res) => {
 	try {
-		const logic = req.body.logic;
-                const message = req.body.message;
-		if (!logic) {
+		const { logic } = req.body;
+		const { message } = req.body;
+
+	                if (!logic) {
 			return res.status(400).send('No file uploaded.');
 		}
                if (!message) {
@@ -4204,7 +4205,7 @@ app.get('/api/uprole', async (req, res) => {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }  
 	const shiroo = new canvafy.LevelUp()
-        .setLevels(text2, text1)
+        .setLevels(text1, text2)
         .setUsername(text3)
         .setBackground('image', background)
         .setAvatar(avatar)
@@ -4217,6 +4218,35 @@ app.get('/api/uprole', async (req, res) => {
           res.set('Content-Type', 'image/png');
         res.send(data);	
         });
+    
+            
+});
+app.get('/api/spotifycard', async (req, res) => {
+  const background = req.query.background;
+    if (!background) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }
+	
+  const text = req.query.title;
+    if (!text) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }
+	const avatar = req.query.image;
+    if (!avatar) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }  
+	const p = await new canvafy.Spotify()
+        .setTitle(title)
+        .setAuthor("Spotify Downloader")
+        .setTimestamp(40, 100)
+        .setOverlayOpacity(0.8)
+        .setBorder("#fff", 0.8)
+        .setImage(avatar)
+        .setBlur(3)
+        .build();
+          res.set('Content-Type', 'image/png');
+        res.send(p);	
+        
     
             
 });
