@@ -12,8 +12,6 @@ const {
 } = require("uuid")
 const canvafy = require('canvafy');
 const Canvacord = require("canvacord");
-const canvasGif = require('canvas-gif')
-const Canvas = require('canvas')
 const got = require('got')
 const bodyParser = require('body-parser');
 const { load } = require('cheerio');
@@ -43,8 +41,6 @@ const { ttSearch } = require('./function/scraper/api.js');
 const { getBuffer } = require("./function/scraper/buffer");
 const { mediafireDl } = require("./function/scraper/mediafire")
 const { ig } = require("./function/scraper/Ig.js")
-const apis = require("@siputzx/scraper") 
-const apinn = require("caliph-api")
 const danz = require('d-scrape');
 const fileType = require('file-type')
 const multer = require('multer');
