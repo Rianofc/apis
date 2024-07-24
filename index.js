@@ -50,7 +50,7 @@ const fileType = require('file-type')
 const multer = require('multer');
 const ocrapi = require("ocr-space-api-wrapper");
 const axios = require('axios')
-const creatot = `RIANGANZ`
+const creator = `RIANGANZ`
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'file/');
