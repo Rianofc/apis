@@ -893,13 +893,3 @@ module.exports = {
   ttsModel,
   findSongs,
 };
-
-let fs = require("fs");
-let chalk = require("chalk");
-let file = require.resolve(__filename);
-fs.watchFile(file, () => {
-  fs.unwatchFile(file);
-  console.log(chalk.redBright("Update scrape"));
-  delete require.cache[file];
-  require(file);
-});
