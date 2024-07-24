@@ -11,6 +11,9 @@ const {
   v4: uuidv4
 } = require("uuid")
 const canvafy = require('canvafy');
+const Canvacord = require("canvacord");
+const canvasGif = require('canvas-gif')
+const Canvas = require('canvas')
 const got = require('got')
 const bodyParser = require('body-parser');
 const { load } = require('cheerio');
@@ -3004,8 +3007,7 @@ app.get('/api/lirik', async (req, res) => {
   }
 });
 app.post('/ai/logic/post', async (req, res) => {
-		const { logic } = req.body;
-		const { message } = req.body;
+		const { logic, message} = req.body;
 		const cfy = await gptlogicnya(logic, message) 
           res.status(200).json({
           status: 200,
@@ -4227,6 +4229,35 @@ app.get('/api/spotifycard', async (req, res) => {
         .build();
           res.set('Content-Type', 'image/png');
         res.send(p);	
+        
+    
+            
+});
+app.get('/api/welcome2', async (req, res) => {
+
+const background = req.query.background;
+    if (!background) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }
+  const text = req.query.title;
+    if (!text) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }
+	const avatar = req.query.image;
+    if (!avatar) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }  
+	const welcome = await new canvafy.WelcomeLeave()
+  .setAvatar(avatar)
+  .setBackground("image", background)
+  .setTitle("Welcome")
+  .setDescription(text)
+  .setBorder("#2a2e35")
+  .setAvatarBorder("#2a2e35")
+  .setOverlayOpacity(0.3)
+  .build();
+          res.set('Content-Type', 'image/png');
+        res.send(welcome);	
         
     
             
