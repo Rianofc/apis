@@ -22,8 +22,6 @@
     "d-scrape": "^1.2.0",
     "form-data": "4.0.0",
     "qs": "^6.12.1",
-    "mongodb": "^5.5.0",
-    "mongoose": "^6.11.1",
     "node-gtts": "^2.0.2",
     "multer": "^1.4.2",
     "super-resolution-scraper": "^1.0.6",
@@ -32,8 +30,6 @@
     "ws": "^8.17.0",
     "hash-generator": "^0.1.0",
     "@bochilteam/scraper": "^4.2.4",
-    "api-dylux": "^1.2.2",
-    "caliph-api": "^1.0.0",
     "jimp": "^0.22.12", 
     "fake-useragent": "^1.0.1",
     "figlet": "^1.7.0",
@@ -48,8 +44,6 @@
     "ytdl-core":"github:soya-daizu/ytdl-core#sig-patch", 
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "express-rate-limit": "^5.5.1",
-    "express-session": "^1.17.1",
     "ssl-express-www": "^3.2.1"
   }
 }
