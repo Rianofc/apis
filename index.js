@@ -4234,7 +4234,6 @@ app.get('/api/spotifycard', async (req, res) => {
             
 });
 app.get('/api/welcome2', async (req, res) => {
-
 const background = req.query.background;
     if (!background) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
