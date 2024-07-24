@@ -26,7 +26,6 @@ const crypto = require("crypto")
 let cp = require("child_process");
 let { promisify } = require("util");
 let exec = promisify(cp.exec).bind(cp); 
-const { chromium } = require('playwright');
 const FormData = require("form-data");
 const Jimp = require("jimp");
 const cheerio = require("cheerio");
