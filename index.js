@@ -35,7 +35,6 @@ const { BingImageCreator } = require("./function/scraper/bingimg");
 const { getTwitterMedia } = require("./function/scraper/twitter");
 const { processing } = require("./function/scraper/Anakay");
 const ptz = require('./function/index') 
-const { soundcloudsearch } = require('./function/scraper/scrapernew.js') 
 const { ttSearch } = require('./function/scraper/api.js');
 const { getBuffer } = require("./function/scraper/buffer");
 const { mediafireDl } = require("./function/scraper/mediafire")
