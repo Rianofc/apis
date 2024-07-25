@@ -17,7 +17,7 @@
     "axios": "^1.6.8",
     "cheerio": "^1.0.0-rc.12",
     "canvafy": "^7.1.0",
-    "canvacord": "^6.0.2",
+    "canvacord": "^5.3.0",
     "nekopoi-scraper": "^2.7.1",
     "d-scrape": "^1.2.0",
     "form-data": "4.0.0",
