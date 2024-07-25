@@ -3210,11 +3210,11 @@ app.get('/api/tinyurl', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-app.get('/api/wasted', cekKey, async (req, res) => {
+app.get('/api/wasted', async (req, res) => {
 	var text = req.query.url
 	if (!text ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
 	const hasil =  await Canvacord.Canvas.wasted(text)
-	res.set({'Content-Type': 'image/png'})
+	res.set('Content-Type', 'image/png');
 	res.send(hasil)
   
 })
