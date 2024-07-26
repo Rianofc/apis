@@ -4,6 +4,8 @@
 const express = require("express"), cors = require("cors"), secure = require("ssl-express-www");
 const ytdl = require('ytdl-core');
 const path = require('path');
+const isNumber = require('is-number');
+const isImageURL = require('image-url-validator').default
 const gtts = require('node-gtts')
 const { srgan2x, srgan4x } = require('super-resolution-scraper');
 const os = require('os');
@@ -334,6 +336,64 @@ message: error
 }
 }
 }
+const website = axios.create({
+  baseURL: 'https://app.yoursearch.ai',
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
+/**
+  * Scraper By QanyPaw
+  * Forbidden to sell and delete my wm, respect the creator
+*/
+
+const yousearch = async (searchTerm) => {
+  const requestData = {
+    searchTerm: searchTerm,
+    promptTemplate: `Search term: "{searchTerm}"
+
+Make your language less formal and use emoticons.
+I want you to always use Indonesian slang from Jakarta where the words "you" and "anda" are replaced with "lu" and the word I is replaced with "gw".
+Create a summary of the search results in three paragraphs with reference numbers, which you then list numbered at the bottom.
+Include emojis in the summary.
+Be sure to include the reference numbers in the summary.
+Both in the text of the summary and in the reference list, the reference numbers should look like this: "(1)".
+Formulate simple sentences.
+Include blank lines between the paragraphs.
+Do not reply with an introduction, but start directly with the summary.
+Include emojis in the summary.
+At the end write a hint text where I can find search results as comparison with the above search term with a link to Google search in this format \`See Google results: \` and append the link.
+Below write a tip how I can optimize the search results for my search query.
+I show you in which format this should be structured:
+
+\`\`\`
+<Summary of search results with reference numbers>
+
+Sources:
+(1) <URL of the first reference>
+(2) <URL of the second reference>
+
+<Hint text for further search results with Google link>
+<Tip>
+\`\`\`
+
+Here are the search results:
+{searchResults}`,
+    searchParameters: "{}",
+    searchResultTemplate: `[{order}] "{snippet}"
+URL: {link}`
+  };
+
+  try {
+    const response = await website.post('/api', requestData);
+    return response.data.response;
+  } catch (error) {
+    console.error('Error:', error);
+    throw error;
+  }
+};
+
 async function numberScammer(number) {
     try {
         const response = await axios.get(`https://www.kredibel.com/phone/id/${number}`, {
@@ -2331,7 +2391,7 @@ async function exon(buffer) {
       });
 
       const { data } = await axios.post(
-        "https://cdn.exonity.my.id/upload",
+        "https://apikita.exonity.xyz/cdn-upload",
         gg,
         {
           headers: {
@@ -2340,7 +2400,7 @@ async function exon(buffer) {
         },
       );
 
-      return data.fileUrl;
+      return data.url;
     } catch (error) {
       console.error("Error uploading file:", error);
       throw new Error(String(error));
@@ -2642,6 +2702,83 @@ async function gemininya6626(inputText) {
     console.error("Error in gptlogic function:", error);
     throw error;
   }
+}
+// batas
+async function fetchAllParameters(content, user, prompt, webSearchMode, imageBuffer) {
+    try {
+        const payload = {
+            content: content,
+            user: user,
+            prompt: prompt,
+            webSearchMode: webSearchMode,
+            imageBuffer: imageBuffer
+        };
+
+        const response = await axios.post('https://lumin-ai.xyz/', payload);
+        console.log(response.data);
+        return response.data; // Mengembalikan data dari response
+    } catch (error) {
+        console.error(error);
+        throw error; // Melempar error untuk ditangani oleh pemanggil fungsi
+    }
+}
+// batas
+const models = {
+    miku: { voice_id: "67aee909-5d4b-11ee-a861-00163e2ac61b", voice_name: "Hatsune Miku" },
+};
+
+async function ttsnimek1(text, voice_id) {
+    function getInspepek() {
+        return `${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`;
+    }
+
+    const InsAgents = [
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/602.3.12 (KHTML, like Gecko) Version/10.1.2 Safari/602.3.12",
+        "Mozilla/5.0 (Linux; Android 8.0.0; Pixel 2 XL Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Mobile Safari/537.36"
+    ];
+    const randomInsAgent = InsAgents[Math.floor(Math.random() * InsAgents.length)];
+
+    const ngeloot = {
+        raw_text: text,
+        url: "https://filme.imyfone.com/text-to-speech/anime-text-to-speech/",
+        product_id: "200054",
+        convert_data: [
+            {
+                voice_id,
+                speed: "1", // maksimal 100 wak normal 1
+                volume: "50", // maksimal 100 normal 50
+                text,
+                pos: 0
+            }
+        ]
+    };
+
+    const rekuesanu = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': '*/*',
+            'X-Forwarded-For': getInspepek(),
+            'User-Agent': randomInsAgent
+        },
+    };
+
+    try {
+        const useanu = await axios.post('https://voxbox-tts-api.imyfone.com/pc/v1/voice/tts', JSON.stringify(ngeloot), rekuesanu);
+        const tobrut_milik_ins = useanu.data;
+        const { channel_id, oss_url } = tobrut_milik_ins.data.convert_result[0];
+        return {
+            data: [{
+                channel_id,
+                voice_id,
+                url: oss_url,
+                voice_name: models[Object.keys(models).find(key => models[key].voice_id === voice_id)].voice_name
+            }]
+        };
+    } catch (error) {
+        console.error(`Yah, ada yang salah nih pas nyobain untuk model ${voice_id}:`, error);
+        return { error: `Waduh, kayaknya ada yang gak beres nih untuk model ${voice_id}` };
+    }
 }
 // batas
 function clockString(ms) {
@@ -2984,6 +3121,48 @@ app.get('/api/gemini', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+app.get('/api/yousearch', async (req, res) => {
+  try {
+    const message = req.query.query;
+    if (!message) {
+      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
+    }
+let hasil = await yousearch(text)
+    res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY",
+      result: hasil
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get('/api/ttsanime', async (req, res) => {
+  try {
+    const message = req.query.text;
+    if (!message) {
+      return res.status(400).json({ error: 'Parameter "text" tidak ditemukan' });
+    }
+	  if (message && message.length > 100) {
+              return res.status(400).json({ error: '[!] hanya bisa 100 text! ' });
+    }
+        const voiceModel = models.miku; // Use the "miku" model
+        const { data } = await ttsnimek1(message, voiceModel.voice_id);
+
+        if (!data || !data[0] || !data[0].url) throw 'TTS conversion failed';
+
+        const audioBuffer = await axios.get(data[0].url, { responseType: 'arraybuffer' });
+const action = await exon(audioBuffer) 
+    res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY",
+      result: action
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.get('/api/lirik', async (req, res) => {
   try {
     const message = req.query.judul;
@@ -3166,7 +3345,7 @@ app.get('/api/luminai', async (req, res) => {
     if (!message) {
       return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
     }
-    luminAi(message)
+    fetchAllParameters(message)
     .then((result) => {
     res.status(200).json({
       status: 200,
