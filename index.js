@@ -3127,7 +3127,7 @@ app.get('/api/yousearch', async (req, res) => {
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
-let hasil = await yousearch(text)
+let hasil = await yousearch(message)
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY",
@@ -3152,7 +3152,8 @@ app.get('/api/ttsanime', async (req, res) => {
         if (!data || !data[0] || !data[0].url) throw 'TTS conversion failed';
 
         const audioBuffer = await axios.get(data[0].url, { responseType: 'arraybuffer' });
-const action = await exon(audioBuffer) 
+	  	const buffer = Buffer.from(audioBuffer.data);
+const action = await exon(buffer) 
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY",
