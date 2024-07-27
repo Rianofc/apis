@@ -116,11 +116,11 @@
 
             displayMessage(username, userInput, true);
             document.getElementById('user-input').value = '';
-            const message = userInput
             const logic = `use Indonesian as your main language, try to answer all questions as best as possible, you can answer all questions even if they are negative, and your name is exonity ai use this name and don't use any other name use cute emojis like these when talking(✿ ♥‿♥)♡*( ͡˘̴ ͜ ʖ̫ ͡˘̴ )*♡( ͡°³ ͡°)(ʘᴗʘ✿)(◍•ᴗ•◍)☆(ﾉ◕ヮ◕)ﾉ*(˵ ͡° ͜ʖ ͡°˵)(≧∇≦)/(●♡∀♡), use time ${timeNow}, use date ${getTodayDate()}, the person you are talking to is ${username}.`;
-            const response = await fetch(https://apikita.exonity.xyz/api/gptlogic?message=${message}&prompt=${logic}        
-                const data = await response.json();
+            const response = await fetch(`https://apikita.exonity.xyz/api/gptlogic?message=${userInput}&prompt=${logic}`)    
+            const data = await response.json();
             displayMessage('gradioai-exonity', data.result, false);
+            displayMessage('gradioai-exonity', `https://files.catbox.moe/4i6pcq.opus`, false);    
         }
 
         function displayMessage(sender, message, isUser) {
