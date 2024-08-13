@@ -46,6 +46,7 @@ const fileType = require('file-type')
 const multer = require('multer');
 const ocrapi = require("ocr-space-api-wrapper");
 const axios = require('axios')
+const nodeCron = require('node-cron');
 const creator = `RIANGANZ`
 // Batas penggunaan API key harian untuk pengguna reguler dan premium
 const REGULAR_LIMIT = 100;
@@ -79,7 +80,7 @@ function checkApiKeyLimit(apiKey) {
 // Endpoint untuk mengecek limit penggunaan API key
 // Contoh endpoint untuk menggunakan API
 // Jadwal reset penggunaan API key setiap 24 jam
-cron.schedule('0 0 * * *', () => {
+nodeCron.schedule('0 0 * * *', () => {
   console.log('Mereset penggunaan API key');
   Object.keys(apiKeys).forEach(key => {
     apiKeys[key].used = 0;
