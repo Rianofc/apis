@@ -47,6 +47,44 @@ const multer = require('multer');
 const ocrapi = require("ocr-space-api-wrapper");
 const axios = require('axios')
 const creator = `RIANGANZ`
+// Batas penggunaan API key harian untuk pengguna reguler dan premium
+const REGULAR_LIMIT = 100;
+const PREMIUM_LIMIT = 300;
+
+// Daftar API key dan penggunaan saat ini
+let apiKeys = {
+  'free': { used: 0, type: 'regular' }, // Pengguna reguler
+  'rahasia': { used: 0, type: 'premium' }, // Pengguna premium
+  // Tambahkan API key lainnya
+};
+
+// Fungsi untuk memeriksa dan mengelola limit API key
+function checkApiKeyLimit(apiKey) {
+  if (!apiKey || !apiKeys[apiKey]) {
+    return { valid: false, message: 'API key invalid atau tidak ditemukan' };
+  }
+
+  const userType = apiKeys[apiKey].type;
+  const limit = userType === 'premium' ? PREMIUM_LIMIT : REGULAR_LIMIT;
+
+  if (apiKeys[apiKey].used >= limit) {
+    return { valid: false, message: 'Limit API key telah tercapai' };
+  }
+
+  // Tambah penggunaan API key
+  apiKeys[apiKey].used += 1;
+  return { valid: true };
+}
+
+// Endpoint untuk mengecek limit penggunaan API key
+// Contoh endpoint untuk menggunakan API
+// Jadwal reset penggunaan API key setiap 24 jam
+cron.schedule('0 0 * * *', () => {
+  console.log('Mereset penggunaan API key');
+  Object.keys(apiKeys).forEach(key => {
+    apiKeys[key].used = 0;
+  });
+});
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'file/');
@@ -3107,6 +3145,11 @@ app.get('/api/soundcloudsearch', async (req, res) => {
 });
 app.get('/api/gemini', async (req, res) => {
   try {
+const apiKey = req.query.apiKey;
+  const result = checkApiKeyLimit(apiKey);
+  if (!result.valid) {
+    return res.status(401).json({ message: result.message });
+  }
     const message = req.query.query;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -3280,6 +3323,26 @@ app.get('/api/tiktokslide', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+app.get('/check-limit', (req, res) => {
+  const apiKey = req.query.apiKey;
+
+  if (!apiKey || !apiKeys[apiKey]) {
+    return res.status(401).json({ message: 'API key invalid atau tidak ditemukan' });
+  }
+
+  const userType = apiKeys[apiKey].type;
+  const limit = userType === 'premium' ? PREMIUM_LIMIT : REGULAR_LIMIT;
+  const used = apiKeys[apiKey].used;
+  const remaining = limit - used;
+
+  res.json({
+    apiKey: apiKey,
+    type: userType,
+    limit: limit,
+    used: used,
+    remaining: remaining
+  });
 });
 app.get('/api/sfile', async (req, res) => {
   try {
