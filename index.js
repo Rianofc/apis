@@ -3146,7 +3146,7 @@ app.get('/api/soundcloudsearch', async (req, res) => {
 });
 app.get('/api/gemini', async (req, res) => {
   try {
-const apiKey = req.query.apiKey;
+const apiKey = req.query.apikey;
   const result = checkApiKeyLimit(apiKey);
   if (!result.valid) {
     return res.status(401).json({ message: result.message });
@@ -3167,6 +3167,8 @@ const apiKey = req.query.apiKey;
 });
 app.get('/api/yousearch', async (req, res) => {
   try {
+	  const apiKey = req.query.apikey;
+  const result = checkApiKeyLimit(apiKey);
     const message = req.query.query;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -3183,6 +3185,8 @@ let hasil = await yousearch(message)
 });
 app.get('/api/ttsanime', async (req, res) => {
   try {
+	  const apiKey = req.query.apikey;
+  const result = checkApiKeyLimit(apiKey);
     const message = req.query.text;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "text" tidak ditemukan' });
@@ -3235,6 +3239,8 @@ app.post('/ai/logic/post', async (req, res) => {
 });
 app.get('/api/gptlogic', async (req, res) => {
   try {
+	  const apiKey = req.query.apikey;
+  const result = checkApiKeyLimit(apiKey);
     const message = req.query.message;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "massage" tidak ditemukan' });
@@ -3255,6 +3261,8 @@ app.get('/api/gptlogic', async (req, res) => {
 });
 app.get('/api/drive', async (req, res) => {
   try {
+	  const apiKey = req.query.apikey;
+  const result = checkApiKeyLimit(apiKey);
     const message = req.query.url;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -3393,6 +3401,8 @@ app.post('/generate-image', async (req, res) => {
 });
 app.get('/api/text2img', async (req, res) => {
   try {
+	const apiKey = req.query.apikey;
+  const result = checkApiKeyLimit(apiKey);  
     const message = req.query.query;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -3455,6 +3465,8 @@ app.get('/api/tinyurl', async (req, res) => {
   }
 });
 app.get('/api/wasted', async (req, res) => {
+	const apiKey = req.query.apikey;
+  const result = checkApiKeyLimit(apiKey);
 	var text = req.query.url
 	if (!text ) return res.json({ status : false, creator : `${creator}`, message : "[!] masukan parameter url"})
 	const hasil =  await Canvacord.Canvas.wasted(text)
