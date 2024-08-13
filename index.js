@@ -2,7 +2,7 @@
 // recode by rian ofc
 // jangan dihapus jembud
 const express = require("express"), cors = require("cors"), secure = require("ssl-express-www");
-const ytdl = require('ytdl-core');
+const ytdl = require('@distube/ytdl-core');
 const path = require('path');
 const isNumber = require('is-number');
 const isImageURL = require('image-url-validator').default
