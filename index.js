@@ -2,7 +2,7 @@
 // recode by rian ofc
 // jangan dihapus jembud
 const express = require("express"), cors = require("cors"), secure = require("ssl-express-www");
-const ytdl = require('@distube/ytdl-core');
+const ytdl = require('node-yt-dl');
 const path = require('path');
 const isNumber = require('is-number');
 const isImageURL = require('image-url-validator').default
@@ -3649,14 +3649,12 @@ app.get('/api/ytmp4', async (req, res) => {
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
-    ytDonlodMp4(message)
-    .then((result) => {
+    const iyah = await ytdl.mp4(message)
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY",
-      result 
+      iyah 
     });
-    })
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
