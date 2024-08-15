@@ -180,6 +180,71 @@ async function sendMessage(text) {
   }
 }
 // bbata
+
+async function Wikipedia(query) {
+    try {
+        const response = await fetch(`https://id.m.wikipedia.org/w/index.php?search=${encodeURIComponent(query)}`);
+        const html = await response.text();
+        const $ = cheerio.load(html);
+
+        const contentArray = [];
+        $('div.mw-parser-output p').each((index, element) => {
+            contentArray.push($(element).text().trim());
+        });
+
+        const infoTable = [];
+        $('table.infobox tr').each((index, element) => {
+            const label = $(element).find('th.infobox-label').text().trim();
+            const value = $(element).find('td.infobox-data').text().trim() || $(element).find('td.infobox-data a').text().trim();
+            if (label && value) {
+                infoTable.push(`${label}: ${value}`);
+            }
+        });
+
+        const data = {
+            title: $('title').text().trim(),
+            content: contentArray.join('\n'),
+            image: 'https:' + ($('#mw-content-text img').attr('src') || '//pngimg.com/uploads/wikipedia/wikipedia_PNG35.png'),
+            infoTable: infoTable.join('\n')
+        };
+
+        return data;
+    } catch (error) {
+        console.error('Error fetching Wikipedia data:', error);
+        throw error;
+    }
+}
+// batas
+async function phharam(query) {
+  const url = `https://www.pornhub.com/video/search?search=${query}`;
+  const response = await fetch(url);
+  const html = await response.text();
+  const $ = cheerio.load(html);
+  
+  const videoList = [];
+
+  $('li[data-video-segment]').each((index, element) => {
+    const $element = $(element);
+    
+    const link = $element.find('.title a').attr('href').trim();
+    const title = $element.find('.title a').text().trim();
+    const uploader = $element.find('.videoUploaderBlock a').text().trim();
+    const views = $element.find('.views').text().trim();
+    const duration = $element.find('.duration').text().trim();
+    
+    const videoData = {
+      link: "https://www.pornhub.com" + link,
+      title: title,
+      uploader: uploader,
+      views: views,
+      duration: duration
+    };
+    
+    videoList.push(videoData);
+  });
+  
+  return videoList;
+}
 // males benerin:v
 async function tiktokdl(url) {
   let result = {}
@@ -490,6 +555,71 @@ async function numberScammer(number) {
     } catch (error) {
         console.error('Error:', error);
     }
+}
+// 😠
+/*
+  Created by https://github.com/ztrdiamond !
+  Source: https://whatsapp.com/channel/0029VagFeoY9cDDa9ulpwM0T
+  "Aku janji jika hapus watermark ini maka aku rela miskin hingga 7 turunan"
+*/
+
+async function removebg(buffer) {
+  try {
+    if(!buffer) return { status: false, message: "undefined reading buffer" };
+    return await new Promise((resolve, reject) => {
+      const image = buffer.toString("base64");
+      axios.post("https://us-central1-ai-apps-prod.cloudfunctions.net/restorePhoto", {
+        image: `data:image/png;base64,${image}`,
+        model: "fb8af171cfa1616ddcf1242c093f9c46bcada5ad4cf6f2fbe8b81b330ec5c003"
+      }).then(res => {
+        const data = res.data?.replace(`"`, "");
+console.log(res.status, data)
+        if(!data) return reject("failed removebg image");
+        resolve({
+          status: true,
+          image: data
+        });
+      }).catch(reject)
+    })
+  } catch (e) {
+    return { status: false, message: e };
+  }
+}
+// ☠️
+async function pixiv(word) {
+  const url = 'https://www.pixiv.net/touch/ajax/tag_portal';
+  const params = { word, lang: 'en', version: 'b355e2bcced14892fe49d790ebb9ec73d2287393' };
+  const headers = {
+    'Referer': 'https://www.pixiv.net/',
+    'Accept-Encoding': 'gzip, deflate, br'
+  };
+
+  const { data } = await axios.get(url, { params, headers });
+  
+  const illusts = data.body.illusts;
+  const promises = illusts.map(async (illust) => {
+    try {
+      const imgResponse = await axios.get(illust.url, { headers, responseType: 'arraybuffer' });
+      return {
+        title: illust.title,
+        tags: illust.tags,
+        alt: illust.alt,
+        upload: new Date(illust.upload_timestamp * 1000).toLocaleString(),
+        image: imgResponse.data
+      };
+    } catch (e) {
+      return {
+        title: illust.title,
+        tags: illust.tags,
+        alt: illust.alt,
+        upload: new Date(illust.upload_timestamp * 1000).toLocaleString(),
+        image: e.response.data
+      };
+    }
+  });
+
+  const result = await Promise.all(promises);
+  return result;
 }
 // 👥
 const {
@@ -4130,6 +4260,38 @@ app.get('/api/tiktokStalk', async (req, res) => {
   res.status(500).json({ error: error.message });
   }
 });
+app.get('/api/pornhub', async (req, res) => {
+  try{
+    const message = req.query.query;
+    if (!message) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }
+   const tikot = await phharam(message)
+    res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY",
+      result: tikot 
+    });    
+  } catch (error) {
+  res.status(500).json({ error: error.message });
+  }
+});
+app.get('/api/wiki', async (req, res) => {
+  try{
+    const message = req.query.query;
+    if (!message) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }
+   const tikot = await Wikipedia(message)
+    res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY",
+      result: tikot 
+    });    
+  } catch (error) {
+  res.status(500).json({ error: error.message });
+  }
+});
 app.get('/api/igstalk', async (req, res) => {
   try{
     const message = req.query.query;
@@ -4152,7 +4314,7 @@ app.get('/api/ytplaymp4', async (req, res) => {
     if (!message) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
-    ytPlayMp4(message)
+    ytPlayMp3(message)
     .then((result) => {
     res.status(200).json({
       status: 200,
@@ -4331,20 +4493,16 @@ app.get('/api/spotify2', async (req, res) => {
     });
 });
 app.get('/api/nobg', async (req, res) => {
-  const message = req.query.url;
-    if (!message) {
+  const text = req.query.url;
+    if (!text) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
-  
-    var requestSettings = {
-        url: `https://skizo.tech/api/removebg?apikey=nana&url=${message}`,
-        method: 'GET',
-        encoding: null
-    };
-    request(requestSettings, function (error, response, body) {
-        res.set('Content-Type', 'image/png');
-        res.send(body);
-});
+	const img = await isImageURL(text)
+	if ( !img ) return res.json({ status : false, creator : creator, message : "[!] itu bukan url image"}) 
+  const yourn = await bufferlah(text) 
+	const bg = await removebg(yourn) 
+     res.set('Content-Type', 'image/png');
+        res.send(bg.image);
 });
 app.get('/api/meme', async (req, res) => {
 	try{
