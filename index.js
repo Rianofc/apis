@@ -3555,7 +3555,8 @@ let jadi = couler[Math.floor(Math.random() * couler.length)]
 res.set({'Content-Type': 'gif'})
 res.send(buffer)
 
-})
+});
+});
 app.get('/api/sfile-search', async (req, res) => {
   try {
     const message = req.query.query;
