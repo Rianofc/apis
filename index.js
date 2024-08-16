@@ -51,7 +51,7 @@ const axios = require('axios')
 const nodeCron = require('node-cron');
 const creator = `RIANGANZ`
 // Batas penggunaan API key harian untuk pengguna reguler dan premium
-const REGULAR_LIMIT = 100;
+const REGULAR_LIMIT = 10;
 const PREMIUM_LIMIT = 300;
 
 // Daftar API key dan penggunaan saat ini
@@ -85,32 +85,11 @@ function checkApiKeyLimit(apiKey) {
 // Contoh endpoint untuk menggunakan API
 // Jadwal reset penggunaan API key setiap 24 jam
 nodeCron.schedule('5 * 60 * 1000', () => {
-const options = {
-    token: '7161904988:AAGT0tz1SzCb1_YqQjPHNZMY-IYfD0NxR5Q',
-    chatId: '6769538149'
-};
-
-const message = async (text, mode) => {
-    try {
-        const { data } = await axios.post(`https://api.telegram.org/bot${options.token}/sendMessage`, {
-            chat_id: options.chatId,
-            text: text,
-            parse_mode: mode
-        });
-
-        console.log(data.ok);
-    } catch (e) {
-        console.error(e);
-    }
-};
-return message("reset all limit apikey!\n © bot by exonity.xyz")
+console.log("[Server Notif] reset limit succesfully") 
 Object.keys(apiKeys).forEach(key => {
     apiKeys[key].used = 0;
   });
 });
-const cp = require('child_process');
-const { promisify } = require('util');
-const exec = promisify(cp.exec).bind(cp);
 nodeCron.schedule('5 * 60 * 1000', () => {
   let o;
   try {
@@ -2904,6 +2883,32 @@ async function gemininya6626(inputText) {
     throw error;
   }
 }
+// bats123
+async function tiktokjirr(query) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const encodedParams = new URLSearchParams();
+      encodedParams.set("url", query);
+      encodedParams.set("hd", "1");
+
+      const response = await axios({
+        method: "POST",
+        url: "https://tikwm.com/api/",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+          Cookie: "current_language=en",
+          "User-Agent":
+            "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36",
+        },
+        data: encodedParams,
+      });
+      const videos = response.data;
+      resolve(videos);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
 // batas
 async function fetchAllParameters(content, user, prompt, webSearchMode, imageBuffer) {
     try {
@@ -3331,6 +3336,9 @@ app.get('/api/yousearch', async (req, res) => {
   try {
 	  const apiKey = req.query.apikey;
   const result = checkApiKeyLimit(apiKey);
+	  if (!result.valid) {
+    return res.status(401).json({ message: result.message });
+  }
     const message = req.query.query;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -3349,6 +3357,9 @@ app.get('/api/ttsanime', async (req, res) => {
   try {
 	  const apiKey = req.query.apikey;
   const result = checkApiKeyLimit(apiKey);
+	  if (!result.valid) {
+    return res.status(401).json({ message: result.message });
+  }
     const message = req.query.text;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "text" tidak ditemukan' });
@@ -3425,6 +3436,9 @@ app.get('/api/drive', async (req, res) => {
   try {
 	  const apiKey = req.query.apikey;
   const result = checkApiKeyLimit(apiKey);
+	  if (!result.valid) {
+    return res.status(401).json({ message: result.message });
+  }
     const message = req.query.url;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
@@ -3620,8 +3634,11 @@ app.post('/generate-image', async (req, res) => {
 app.get('/api/text2img', async (req, res) => {
   try {
 	const apiKey = req.query.apikey;
-  const result = checkApiKeyLimit(apiKey);  
-    const message = req.query.query;
+ const result = checkApiKeyLimit(apiKey);  
+    if (!result.valid) {
+    return res.status(401).json({ message: result.message });
+    }
+	  const message = req.query.query;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
@@ -3650,13 +3667,17 @@ app.get('/api/luminai', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-app.get('/api/gpt4o', async (req, res) => {
+app.get('/api/image-to-pdf', async (req, res) => {
   try {
-    const message = req.query.query;
+    const message = req.query.url;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
-    const gpt0 = await gpt4o(message) 
+	  const img = await isImageURL(message)
+	if ( !img ) return res.json({ status : false, creator : creator, message : "[!] itu bukan url image"}) 
+  const yourn = await bufferlah(message) 
+
+    const gpt0 = await toPDF(yourn) 
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY",
@@ -4545,22 +4566,13 @@ app.get('/api/searchsticker', async (req, res) => {
   }
 });
 app.get('/api/tikmusic', async (req, res) => {
-  const message = req.query.url;
-    if (!message) {
+  const url = req.query.url;
+    if (!url) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
-  var response = await fetch(`https://api.exonity.my.id/api/tiktok2?url=${message}`);
-    var data = await response.json();
-    var { music: music } = data.result;
-    var requestSettings = {
-        url: music,
-        method: 'GET',
-        encoding: null
-    };
-    request(requestSettings, function (error, response, body) {
-        res.set('Content-Type', 'audio/mp3');
-        res.send(body);
-    });
+	const result = await tiktokjirr(url) 
+          res.set('Content-Type', 'audio/mp3');
+        res.send(result.music);
 });
 app.get('/api/spotify2', async (req, res) => {
   const message = req.query.url;
@@ -4581,7 +4593,8 @@ app.get('/api/spotify2', async (req, res) => {
     });
 });
 app.get('/api/nobg', async (req, res) => {
-  const text = req.query.url;
+ try{
+	const text = req.query.url;
     if (!text) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
@@ -4589,8 +4602,14 @@ app.get('/api/nobg', async (req, res) => {
 	if ( !img ) return res.json({ status : false, creator : creator, message : "[!] itu bukan url image"}) 
   const yourn = await bufferlah(text) 
 	const bg = await removebg(yourn) 
-     res.set('Content-Type', 'image/png');
-        res.send(bg.image);
+     res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY",
+      result: bg
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+}
 });
 app.get('/api/meme', async (req, res) => {
 	try{
