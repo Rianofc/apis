@@ -56,6 +56,8 @@ const PREMIUM_LIMIT = 300;
 
 // Daftar API key dan penggunaan saat ini
 let apiKeys = {
+  'rian': { used: 0, type: 'regular' }, // Pengguna reguler	
+  'exonity': { used: 0, type: 'regular' }, // Pengguna reguler
   'free': { used: 0, type: 'regular' }, // Pengguna reguler
   'rahasia': { used: 0, type: 'premium' }, // Pengguna premium
   // Tambahkan API key lainnya
@@ -82,12 +84,41 @@ function checkApiKeyLimit(apiKey) {
 // Endpoint untuk mengecek limit penggunaan API key
 // Contoh endpoint untuk menggunakan API
 // Jadwal reset penggunaan API key setiap 24 jam
-nodeCron.schedule('0 0 * * *', () => {
-  console.log('Mereset penggunaan API key');
-  Object.keys(apiKeys).forEach(key => {
+nodeCron.schedule('5 * 60 * 1000', () => {
+const options = {
+    token: '7161904988:AAGT0tz1SzCb1_YqQjPHNZMY-IYfD0NxR5Q',
+    chatId: '6769538149'
+};
+
+const message = async (text, mode) => {
+    try {
+        const { data } = await axios.post(`https://api.telegram.org/bot${options.token}/sendMessage`, {
+            chat_id: options.chatId,
+            text: text,
+            parse_mode: mode
+        });
+
+        console.log(data.ok);
+    } catch (e) {
+        console.error(e);
+    }
+};
+return message("reset all limit apikey!\n © bot by exonity.xyz")
+Object.keys(apiKeys).forEach(key => {
     apiKeys[key].used = 0;
   });
 });
+const cp = require('child_process');
+const { promisify } = require('util');
+const exec = promisify(cp.exec).bind(cp);
+nodeCron.schedule('5 * 60 * 1000', () => {
+  let o;
+  try {
+    o = await exec('rm -rf tmp && mkdir tmp');
+  } catch (e) {
+    o = e;
+  }
+})
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'file/');
@@ -97,7 +128,6 @@ const storage = multer.diskStorage({
     cb(null, uniqueName);
   },
 });
-
 const fileFilter = (req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png|webp|mp3|mp4/;
   const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
