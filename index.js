@@ -66,7 +66,7 @@ let apiKeys = {
 // Fungsi untuk memeriksa dan mengelola limit API key
 function checkApiKeyLimit(apiKey) {
   if (!apiKey || !apiKeys[apiKey]) {
-    return { valid: false, message: 'API key invalid atau tidak ditemukan' };
+    return { valid: false, message: 'API key invalid atau tidak ditemukan list apikey free, rian, exonity' };
   }
 
   const userType = apiKeys[apiKey].type;
@@ -93,7 +93,7 @@ Object.keys(apiKeys).forEach(key => {
 nodeCron.schedule('5 * 60 * 1000', () => {
   let o;
   try {
-    o = await exec('rm -rf tmp && mkdir tmp');
+    o = exec('rm -rf tmp && mkdir tmp');
   } catch (e) {
     o = e;
   }
