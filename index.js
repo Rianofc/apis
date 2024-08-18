@@ -120,9 +120,6 @@ const catbox = async (content) => {
     let { stdout } = await exec(
       "zip -r tmp/backup.zip * -x 'node_modules/*'",
     );
-
-    if (stdout)
-      
           const result = await fs.readFileSync("./tmp/backup.zip")
 	  const url = await catbox(result) 
 const options = {
