@@ -673,6 +673,60 @@ async function pixiv(word) {
   const result = await Promise.all(promises);
   return result;
 }
+// 18+
+async function prodia(text) {
+  try {
+    const response = await axios.get('https://api.prodia.com/generate', {
+      params: {
+        new: true,
+        prompt: text,
+        model: 'absolutereality_v181.safetensors [3d9d4d2b]',
+        negative_prompt: '',
+        steps: 20,
+        cfg: 7,
+        seed: 1736383137,
+        sampler: 'DPM++ 2M Karras',
+        aspect_ratio: 'square'
+      },
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Referer': 'https://app.prodia.com/'
+      }
+    });
+
+    if (response.status === 200) {
+      const data = response.data;
+      const jobId = data.job;
+      const imageUrl = `https://images.prodia.xyz/${jobId}.png`;
+      return {
+        status: true,
+        imageUrl: imageUrl
+      };
+    } else {
+      return {
+        status: false,
+        message: 'Permintaan tidak dapat diproses'
+      };
+    }
+  } catch (error) {
+    if (error.response) {
+      return {
+        status: false,
+        message: `Error: ${error.response.status} - ${error.response.statusText}`
+      };
+    } else if (error.request) {
+      return {
+        status: false,
+        message: 'No response from the server.'
+      };
+    } else {
+      return {
+        status: false,
+        message: error.message
+      };
+    }
+  }
+}
 // 👥
 const {
   GoogleGenerativeAI,
@@ -3684,9 +3738,12 @@ app.get('/api/text2img', async (req, res) => {
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
-   const imageBuffer = await text2imgv55(message);
-        res.setHeader('Content-Type', 'image/jpg');
-        res.send(imageBuffer);
+   const imageBuffer = await prodia(message);
+        res.status(200).json({
+      status: 200,
+      creatorai: creator,   
+      result: imageBuffer
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
