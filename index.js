@@ -3085,13 +3085,7 @@ var {
   capcut
 } = require("./function/scraper/exonityscraper");
 
-var app = express();
-const express = require('express');
-const axios = require('axios');
 const app = express();
-
-let allowedIPs = [];
-
 // URL raw GitHub
 const githubRawUrl = 'https://raw.githubusercontent.com/Rianofc/Accip/main/allowedIPs.json'
 // Middleware untuk memeriksa IP
