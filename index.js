@@ -122,8 +122,8 @@ const catbox = async (content) => {
     );
 
 if (stdout)
-          const result = await fs.readFileSync("./tmp/backup.zip")
-	  const url = await catbox(result) 
+          let result = await fs.readFileSync("./tmp/backup.zip")
+	  let url = await catbox(result) 
 
 const message = async (text, mode) => {
     try {
