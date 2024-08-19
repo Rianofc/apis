@@ -3087,32 +3087,6 @@ var {
 
 const app = express();
 // URL raw GitHub
-const githubRawUrl = 'https://raw.githubusercontent.com/Rianofc/Accip/main/allowedIPs.json'
-// Middleware untuk memeriksa IP
-app.use(async (req, res, next) => {
-    const clientIP = req.ip;
-
-    // Periksa apakah allowedIPs sudah diisi, jika belum, ambil dari GitHub
-    if (allowedIPs.length === 0) {
-        try {
-            const response = await axios.get(githubRawUrl);
-            allowedIPs = response.data.allowed_ips;
-            console.log('Daftar IP yang diizinkan telah diperbarui.');
-        } catch (error) {
-            console.log('Gagal memuat daftar IP yang diizinkan:', error.message);
-            return res.status(500).send('Server Error');
-        }
-    }
-
-    // Jika IP tidak diizinkan, matikan server
-    if (!allowedIPs.includes(clientIP)) {
-        console.log(`IP ${clientIP} tidak diizinkan. Server akan dimatikan.`);
-        res.status(403).send('Forbidden: Invalid IP');
-        process.exit(1); // Mematikan server
-    } else {
-        next(); // Lanjutkan ke route berikutnya jika IP diizinkan
-    }
-});
 app.enable("trust proxy");
 app.set("json spaces", 2);
 app.use(express.json());
