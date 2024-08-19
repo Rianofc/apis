@@ -117,11 +117,11 @@ const catbox = async (content) => {
 };
   setInterval(async () => {
 	  
-    const { stdout } = await exec(
+    let { stdout } = await exec(
       "zip -r tmp/backup.zip * -x 'node_modules/*'",
     );
-return stdout
 
+if (stdout)
           const result = await fs.readFileSync("./tmp/backup.zip")
 	  const url = await catbox(result) 
 
@@ -3089,6 +3089,39 @@ var {
 } = require("./function/scraper/exonityscraper");
 
 var app = express();
+const express = require('express');
+const axios = require('axios');
+const app = express();
+
+let allowedIPs = [];
+
+// URL raw GitHub
+const githubRawUrl = 'https://raw.githubusercontent.com/Rianofc/Accip/main/allowedIPs.json'
+// Middleware untuk memeriksa IP
+app.use(async (req, res, next) => {
+    const clientIP = req.ip;
+
+    // Periksa apakah allowedIPs sudah diisi, jika belum, ambil dari GitHub
+    if (allowedIPs.length === 0) {
+        try {
+            const response = await axios.get(githubRawUrl);
+            allowedIPs = response.data.allowed_ips;
+            console.log('Daftar IP yang diizinkan telah diperbarui.');
+        } catch (error) {
+            console.log('Gagal memuat daftar IP yang diizinkan:', error.message);
+            return res.status(500).send('Server Error');
+        }
+    }
+
+    // Jika IP tidak diizinkan, matikan server
+    if (!allowedIPs.includes(clientIP)) {
+        console.log(`IP ${clientIP} tidak diizinkan. Server akan dimatikan.`);
+        res.status(403).send('Forbidden: Invalid IP');
+        process.exit(1); // Mematikan server
+    } else {
+        next(); // Lanjutkan ke route berikutnya jika IP diizinkan
+    }
+});
 app.enable("trust proxy");
 app.set("json spaces", 2);
 app.use(express.json());
