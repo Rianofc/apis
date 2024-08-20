@@ -614,6 +614,11 @@ async function numberScammer(number) {
   Source: https://whatsapp.com/channel/0029VagFeoY9cDDa9ulpwM0T
   "Aku janji jika hapus watermark ini maka aku rela miskin hingga 7 turunan"
 */
+/*
+  Created by https://github.com/ztrdiamond !
+  Source: https://whatsapp.com/channel/0029VagFeoY9cDDa9ulpwM0T
+  "Aku janji jika hapus watermark ini maka aku rela miskin hingga 7 turunan"
+*/
 
 async function removebg(buffer) {
   try {
@@ -3082,6 +3087,50 @@ async function ttsnimek1(text, voice_id) {
     }
 }
 // batas
+async function video2audio(buffer) {
+  try {
+    return await new Promise(async(resolve, reject) => {
+      if (!buffer) return reject("undefined reading buffer");
+      if (!Buffer.isBuffer(buffer)) return reject("invalid buffer input!");
+      const form = new FormData();
+      form.append("userfile", buffer, `${Date.now()}.mp4`);
+      axios.post("https://service5.coolutils.org/upload.php", form, {
+        headers: form.getHeaders(),
+      })
+      .then(async uploadRes => {
+        const uploadedFile = uploadRes.data;
+        if (!uploadedFile) return reject("failed converting while uploading media!");
+        const payload = new URLSearchParams();
+        payload.append("Flag", 5);
+        payload.append("srcfile", uploadedFile);
+        payload.append("Ref", "/convert/MP4-to-MP3");
+        payload.append("fmt", "mp3");
+        payload.append("resize_constraint", "on");
+        axios.post("https://service5.coolutils.org/movie_convert.php", payload.toString(), {
+          headers: {
+            'Accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+            'Content-Type': "application/x-www-form-urlencoded"
+          },
+          responseType: "arraybuffer"
+        })
+        .then(res => {
+          if (!Buffer.isBuffer(res.data)) return reject("failed converting video to audio!");
+          resolve({
+            status: true,
+            data: {
+              audio: Buffer.from(res.data, "binary")
+            }
+          });
+        })
+        .catch(error => reject(`Error during conversion: ${error.message}`));
+      })
+      .catch(error => reject(`Error during upload: ${error.message}`));
+    });
+  } catch (e) {
+    return { status: false, message: e.message || e };
+  }
+}
+// btas
 function clockString(ms) {
   var d = isNaN(ms) ? "--" : Math.floor(ms / 86400000);
   var h = isNaN(ms) ? "--" : Math.floor(ms / 3600000) % 24;
@@ -3419,6 +3468,27 @@ const apiKey = req.query.apikey;
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
     let down = await gemininya6626(message) 
+    res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY",
+      result: down
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get('/api/pixiv-search', async (req, res) => {
+  try {
+const apiKey = req.query.apikey;
+  const result = checkApiKeyLimit(apiKey);
+  if (!result.valid) {
+    return res.status(401).json({ message: result.message });
+  }
+    const message = req.query.query;
+    if (!message) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }
+    let down = await pixiv(message) 
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY",
@@ -4230,6 +4300,43 @@ app.get('/api/vocalRemover', async (req, res) => {
 const isin = await bufferlahh(message) 
     // Lakukan sesuatu dengan buffer audio di sini
 	  const yayaitun = await vocalRemover(isin) 
+    res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY",
+      result: yayaitun
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get('/api/video2audio', async (req, res) => {
+  try {
+    const message = req.query.url;
+    if (!message) {
+      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
+    }
+const isin = await bufferlahh(message) 
+    // Lakukan sesuatu dengan buffer audio di sini
+	  const result = await video2audio(isin) 
+	  const reseller = await catbox(result.data.audio)
+    res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY",
+      result: reseller
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get('/api/remini-v2', async (req, res) => {
+  try {
+    const message = req.query.url;
+    if (!message) {
+      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
+    }
+const isin = await axios.get(`https://www.api.vyturex.com/upscale?imageUrl=message`) 
+    // Lakukan sesuatu dengan buffer audio di sini
+	  const yayaitun = isin.resultUrl
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY",
