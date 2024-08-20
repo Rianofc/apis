@@ -4216,7 +4216,7 @@ app.get('/api/igdownload', async (req, res) => {
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY",
-      result: { response }
+      result: response 
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
