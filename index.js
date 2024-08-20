@@ -2551,10 +2551,6 @@ async function bufferlah(hm) {
 }
 // buffer
 //function pixiv
-async function pixiv(text) {
-    return axios.get("https://api.lolicon.app/setu/v2?size=regular&r18=0&num=20&keyword=" + text)
-        .then(data => data.data.data);
-}
 
 async function pixivr18(text) {
     return axios.get("https://api.lolicon.app/setu/v2?size=regular&r18=1&num=20&keyword=" + text)
@@ -3229,11 +3225,8 @@ size: totalSize
     };
   res.json(statsu);
 });
-app.get('/mt', (req, res) => {
+app.get('/dashboard', (req, res) => {
   res.sendFile(path.join(__dirname,  'index.html'));
-});
-app.get('/profile', (req, res) => {
-  res.sendFile(path.join(__dirname,  'profile.html'));
 });
 app.get('/upload', (req, res) => {
   res.sendFile(path.join(__dirname,  'upload.html'));
@@ -3243,30 +3236,6 @@ app.get('/chatbot', (req, res) => {
 });
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname,  'home.html'));
-});
-app.get('/pingpong', (req, res) => {
-  res.sendFile(path.join(__dirname,  'game.html'));
-});
-app.get('/djviralnya', (req, res) => {
-  res.sendFile(path.join(__dirname,  'ytdl (1).mp3'));
-});
-app.get('/loading', (req, res) => {
-  res.sendFile(path.join(__dirname,  'j.html'));
-});
-app.get('/docs', (req, res) => {
-  res.sendFile(path.join(__dirname,  'openapi.html'));
-});
-app.get('/lolhuman', (req, res) => {
-  res.sendFile(path.join(__dirname,  'Lolhuman.html'));
-});
-app.get('/text2img/create-image', (req, res) => {
-  res.sendFile(path.join(__dirname,  'text.html'));
-});
-app.get('/play/spotify', (req, res) => {
-  res.sendFile(path.join(__dirname,  'Test.html'));
-});
-app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname,  'docs2.html'));
 });
 app.get('/api/ragbot', async (req, res) => {
   try {
@@ -3809,10 +3778,12 @@ app.get('/api/text2img', async (req, res) => {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
    const imageBuffer = await prodia(message);
+	  const tobrut= await bufferlah(imageBuffer.imageUrl)
+	  const memanggil_tobrut = await exon(tobrut) 
         res.status(200).json({
       status: 200,
-      creatorai: creator,   
-      result: imageBuffer
+      creator: creator,   
+      result: memanggil_tobrut
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -4334,7 +4305,7 @@ app.get('/api/remini-v2', async (req, res) => {
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
-const isin = await axios.get(`https://www.api.vyturex.com/upscale?imageUrl=message`) 
+const isin = await axios.get(`https://www.api.vyturex.com/upscale?imageUrl=${message}`) 
     // Lakukan sesuatu dengan buffer audio di sini
 	  const yayaitun = isin.resultUrl
     res.status(200).json({
@@ -4389,14 +4360,12 @@ app.get('/api/ytmp3', async (req, res) => {
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
-    ytDonlodMp3(message)
-    .then((result) => {
+    const mp3 = await ytdl.mp3(message)
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY",
-      result 
+      result: mp3
     });
-    })
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
