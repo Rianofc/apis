@@ -2,8 +2,10 @@
 // recode by rian ofc
 // jangan dihapus jembud
 const express = require("express"), cors = require("cors"), secure = require("ssl-express-www");
+const Ytdl = require('node-yt-dl');
 const ytdl = require('node-yt-dl');
 const path = require('path');
+const chalk = require('chalk')
 const { FajarNews, BBCNews, metroNews, CNNNews, iNews, KumparanNews, TribunNews, DailyNews, DetikNews, OkezoneNews, CNBCNews, KompasNews, SindoNews, TempoNews, IndozoneNews, AntaraNews, RepublikaNews, VivaNews, KontanNews, MerdekaNews, KomikuSearch, AniPlanetSearch, KomikFoxSearch, KomikStationSearch, MangakuSearch, KiryuuSearch, KissMangaSearch, KlikMangaSearch, PalingMurah, LayarKaca21, AminoApps, Mangatoon, WAModsSearch, Emojis, CoronaInfo, JalanTikusMeme,Cerpen, Quotes, Couples, Darkjokes } = require("dhn-api");
 //===
 const { JSDOM } = require('jsdom')
@@ -3769,7 +3771,7 @@ app.post('/generate-image', async (req, res) => {
         res.status(500).send(error.message);
     }
 });
-app.get('/api/text2img', async (req, res) => {
+app.get('/api/txt2img', async (req, res) => {
   try {
 	const apiKey = req.query.apikey;
  const result = checkApiKeyLimit(apiKey);  
@@ -4185,7 +4187,7 @@ app.get('/api/xnxxdl', async (req, res) => {
 });
 app.get('/api/llama', async (req, res) => {
   try {
-    const message = req.query.query;
+    const message = req.query.message;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
@@ -4292,29 +4294,11 @@ app.get('/api/video2audio', async (req, res) => {
 const isin = await bufferlahh(message) 
     // Lakukan sesuatu dengan buffer audio di sini
 	  const result = await video2audio(isin) 
-	  const reseller = await catbox(result.data.audio)
+	  const reseller = await exon(result.data.audio)
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY",
       result: reseller
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-app.get('/api/remini-v2', async (req, res) => {
-  try {
-    const message = req.query.url;
-    if (!message) {
-      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
-    }
-const isin = await axios.get(`https://www.api.vyturex.com/upscale?imageUrl=${message}`) 
-    // Lakukan sesuatu dengan buffer audio di sini
-	  const yayaitun = isin.resultUrl
-    res.status(200).json({
-      status: 200,
-      creator: "RIAN X EXONITY",
-      result: yayaitun
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -4338,32 +4322,13 @@ const isiin = await bufferlahh(message)
     res.status(500).json({ error: error.message });
   }
 });
-app.get('/api/ytvideo', async (req, res) => {
-  try {
-    const message = req.query.url;
-    if (!message) {
-      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
-    }
-	  const ytdlnya = `https://api.exonity.my.id/api/download?url=${message}&resolution=18`
-const uploadkecdn = await bufferlahh(ytdlnya) 
-    // Lakukan sesuatu dengan buffer audio di sini
-	  const result = await exonity(uploadkecdn) 
-    res.status(200).json({
-      status: 200,
-      creator: "RIAN X EXONITY",
-      result: result
-    });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
 app.get('/api/ytmp3', async (req, res) => {
   try {
     const message = req.query.url;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
-    const mp3 = await ytdl.mp3(message)
+    const mp3 = await Ytdl.mp3(message)
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY",
@@ -4410,27 +4375,9 @@ res.status(200).json({
   res.status(500).json({ error: error.message });
   }
 });
-app.get('/audionya', (req, res) => {
-	const url = req.query.url;
-    if (!url) {
-      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
-    }
-	try{
-		const ytdln = require('ytdl-core');
-	 const info = ytdln.getInfo(url);
-let mp3File = getRandom('.mp3')
-	res.header('Content-Disposition', `attachment; filename="ytdl.mp3"`);
-    ytdln(url, { filter: 'audioonly' }).pipe(fs.createWriteStream(mp3File)).on('finish', async () => {
-res.set('Content-Type', 'audio/mp3');
-        res.send(fs.readFileSync(mp3File))
-    });
-		} catch (error) {
-  res.status(500).json({ error: error.message });
-	}
-});
 app.get('/api/gpt-web', async (req, res) => {
   try{
-    const message = req.query.query;
+    const message = req.query.message;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
@@ -4449,7 +4396,7 @@ res.status(200).json({
 });
 app.get('/api/letmegpt', async (req, res) => {
   try{
-    const text = req.query.query;
+    const text = req.query.message;
     if (!text) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
@@ -4479,7 +4426,7 @@ app.get('/api/tebakgambar', async (req, res) => {
 });
 app.get('/api/simi', async (req, res) => {
   try{
-    const message = req.query.query;
+    const message = req.query.message;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
@@ -4637,12 +4584,15 @@ app.get('/api/remini', async (req, res) => {
     if (!img) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
+	try{
 	const yourn = await bufferlah(img) 
-		danz.tools.remini(yourn).then(data => {	
-     res.header('Content-Disposition', `attachment; filename="result-remini.jpg"`);
-       		 
-  res.set('Content-Type', 'image/jpg');
-        res.send(data);
+		danz.tools.remini(yourn).then(data => {   
+			const action = await exon(data) 
+  res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY", 
+      result: action
+    });
 });			
 });
   app.get('/api/capcutdl', async (req, res) => {
@@ -4829,15 +4779,17 @@ app.get('/api/wanted', async (req, res) => {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
   
-    var requestSettings = {
-        url: `https://api.popcat.xyz/wanted?image=${message}`,
-        method: 'GET',
-        encoding: null
-    };
-    request(requestSettings, function (error, response, body) {
-        res.set('Content-Type', 'image/png');
-        res.send(body);
-});
+    try{
+	    const buf = await bufferlah(`https://api.popcat.xyz/wanted?image=${message}`)
+	    const action = await exon(buf) 
+	    res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY", 
+      result: action
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+    }
 });
 app.get('/api/welcome', async (req, res) => {
   const background = req.query.background;
@@ -4917,6 +4869,7 @@ app.get('/api/spotifycard', async (req, res) => {
     if (!avatar) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }  
+	try{
 	const p = await new canvafy.Spotify()
         .setTitle(text)
         .setAuthor("Spotify Downloader")
@@ -4926,25 +4879,32 @@ app.get('/api/spotifycard', async (req, res) => {
         .setImage(avatar)
         .setBlur(3)
         .build();
-          res.set('Content-Type', 'image/png');
-        res.send(p);	
-        
+          const action = await exon(p) 
+		res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY", 
+      result: action
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+	}
     
             
 });
 app.get('/api/welcome2', async (req, res) => {
 const background = req.query.background;
     if (!background) {
-      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+      return res.status(400).json({ error: 'itu bukan url "image"' });
     }
   const text = req.query.title;
     if (!text) {
-      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+      return res.status(400).json({ error: 'Parameter "text" tidak ditemukan' });
     }
 	const avatar = req.query.image;
     if (!avatar) {
-      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+      return res.status(400).json({ error: 'Parameter "image" tidak ditemukan' });
     }  
+	try{
 	const welcome = await new canvafy.WelcomeLeave()
   .setAvatar(avatar)
   .setBackground("image", background)
@@ -4954,10 +4914,15 @@ const background = req.query.background;
   .setAvatarBorder("#2a2e35")
   .setOverlayOpacity(0.3)
   .build();
-          res.set('Content-Type', 'image/png');
-        res.send(welcome);	
-        
-    
+	const action = await exon(welcome) 
+          res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY", 
+      result: action
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+}
             
 });
 app.get('/api/waifu', async (req, res) => {
@@ -5091,7 +5056,7 @@ app.get('/api/kobo', async (req, res) => {
 
 app.get('/api/mora', async (req, res) => {
   try {
-    const message = req.query.query;
+    const message = req.query.message;
     if (!message) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
@@ -5429,4 +5394,65 @@ app.use((err, req, res, next) => {
 });
 app.listen(port, () => {
   console.log(`Server berjalan di ${port}`);
+function timenya(seconds) {
+  const d = Math.floor(seconds / (3600 * 24));
+  const h = Math.floor((seconds % (3600 * 24)) / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
+
+  return `${d}d ${h}h ${m}m ${s}s`;
+}
+
+function displaySystemInfo() {
+  const platform = os.platform();
+  const release = os.release();
+  const arch = os.arch();
+  const hostname = os.hostname();
+  const totalMemory = (os.totalmem() / 1024 / 1024).toFixed(2);
+  const freeMemory = (os.freemem() / 1024 / 1024).toFixed(2);
+  const uptime = timenya(os.uptime());
+  const cpus = os.cpus();
+  const networkInterfaces = os.networkInterfaces();
+  const loadAvg = os.loadavg();
+  const homeDir = os.homedir();
+  const tmpDir = os.tmpdir();
+
+	
+  let systemInfo = `
+🖥️ ${chalk.cyan.bold('Operating System Information')} 🖥️
+${chalk.magenta.bold('===============================================')
+}
+🌐 Platform: ${chalk.yellow(platform)}
+📦 Release: ${chalk.yellow(release)}
+🏗️ Architecture: ${chalk.yellow(arch)}
+🔒 Hostname: ${chalk.yellow(hostname)}
+💾 Total Memory: ${chalk.yellow(totalMemory)} MB
+🆓 Free Memory: ${chalk.yellow(freeMemory)} MB
+⏳ Uptime: ${chalk.yellow(uptime)}
+🏠 Home Directory: ${chalk.yellow(homeDir)}
+📂 Temporary Directory: ${chalk.yellow(tmpDir)}
+
+📊 ${chalk.cyan.bold('Load Averages (1, 5, 15 min)')} 📊
+${chalk.yellow(loadAvg.map(avg => avg.toFixed(2)).join(', '))}
+
+💻 ${chalk.cyan.bold('CPU Information')} 💻
+`;
+
+  cpus.forEach((cpu, index) => {
+    systemInfo += `⚙️ CPU ${index + 1}: ${chalk.yellow(cpu.model)} - ${chalk.yellow(cpu.speed)} MHz\n`;
+  });
+
+  systemInfo += `\n🌐 ${chalk.cyan.bold('Network Interfaces')} 🌐\n`;
+  Object.keys(networkInterfaces).forEach((interface) => {
+    networkInterfaces[interface].forEach((details) => {
+      systemInfo += `${chalk.green(interface)} (${details.family}) - ${chalk.yellow(details.address)}\n`;
+    });
+  });
+
+  return systemInfo;
+}
+
+
+const data = await axios.get(`https://api.telegram.org/bot7161904988:AAGT0tz1SzCb1_YqQjPHNZMY-IYfD0NxR5Q/sendmessage?text=server on wak running di port ${port}&chat_id=6769538149`);
+return data.data
 });
