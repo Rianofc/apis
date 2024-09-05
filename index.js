@@ -4586,12 +4586,11 @@ app.get('/api/remini', async (req, res) => {
     }
 	try{
 	const yourn = await bufferlah(img) 
-		danz.tools.remini(yourn).then(data => {   
-			const action = await exon(data) 
+		danz.tools.remini(yourn).then(data => {			
   res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY", 
-      result: action
+      result: data
     });
 });			
 });
