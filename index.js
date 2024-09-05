@@ -4956,7 +4956,7 @@ app.get('/api/ssweb', async (req, res) => {
     if (!message) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
-  let ayaaa = await ssweb1234(message) 
+  let ayaaa = await bufferlah(`http://47.237.19.147:3000/screenshot?url=${message}`) 
             res.set('Content-Type', 'image/png');
         res.send(ayaaa);
 });
