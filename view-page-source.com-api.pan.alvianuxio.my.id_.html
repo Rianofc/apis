@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Documentation</title>
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 0;
+    direction: ltr;
+  }
+  .container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+  }
+  .container * {
+    animation: slide-in 1s ease-out forwards;
+  }
+  @keyframes slide-in {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  .about-me {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .profile-pic-container {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  .profile-pic {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #444;
+  }
+  .rotating-lines {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    margin-top: -100px;
+    margin-left: -100px;
+    border-radius: 50%;
+    border: 2px dashed #fff;
+    animation: rotate 5s linear infinite;
+  }
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .about-me h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  .about-me p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+  .view-docs-btn, .whatsapp-chat-btn, .whatsapp-channel-btn {
+    display: block;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: #333;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    margin: 10px auto;
+    width: fit-content;
+  }
+  .view-docs-btn:hover, .whatsapp-chat-btn:hover, .whatsapp-channel-btn:hover {
+    background-color: #444;
+  }
+  .content {
+    display: none;
+  }
+  .section {
+    margin-bottom: 40px;
+  }
+  .section-title {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    border-bottom: 2px solid #444;
+    padding-bottom: 10px;
+    text-align: center;
+  }
+  .info-card {
+    display: flex;
+    justify-content: space-between;
+    background-color: #2a2a2a;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+  .info-card div {
+    flex: 1;
+    text-align: center;
+  }
+  .info-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #fff;
+  }
+  .info-content {
+    font-size: 1rem;
+    color: #b0b0b0;
+  }
+  .btn-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    text-decoration: none;
+    font-size: 1rem;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+  .btn:hover {
+    background-color: #444;
+  }
+  .dropdown-content {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: #fff;
+  }
+  .form-group input, .form-group button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #2a2a2a;
+    color: #fff;
+    font-size: 1rem;
+  }
+  .form-group button {
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  .form-group button:hover {
+    background-color: #444;
+  }
+  .result {
+    background-color: #2a2a2a;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="about-me">
+    <h1>Pan Pan Api</h1>
+    <div class="profile-pic-container">
+      <img src="https://files.catbox.moe/fgq7jl.jpg" alt="Profile Picture" class="profile-pic">
+      <div class="rotating-lines"></div>
+    </div>
+    <p>Welcome To My Rest Api</p>
+    <button class="view-docs-btn" onclick="viewDocs()">View Docs</button>
+    <button class="whatsapp-chat-btn" onclick="location.href='https://wa.me/62857021072505'">Chat WhatsApp</button>
+    <button class="whatsapp-channel-btn" onclick="location.href='https://whatsapp.com/channel/0029Vac0DjG6xCSJT0HTV61w'">Channel WhatsApp</button>
+  </div>
+  <div class="content">
+    <h1>API Documentation</h1>
+    <p>Welcome to the API documentation for our service. Below you will find information about the available endpoints and how to use them.</p>
+     
+  <div class="section">
+    <h2 class="section-title">Information</h2>
+    <div class="info-card">
+      <div>
+        <h3 class="info-title">Your IP Address</h3>
+        <div class="info-content" id="ip">Loading...</div>
+      </div>
+      <div>
+        <h3 class="info-title">Time</h3>
+        <div class="info-content" id="jam">Loading...</div>
+      </div>
+      <div>
+        <h3 class="info-title">Date</h3>
+        <div class="info-content" id="tanggal">Loading...</div>
+      </div>
+      <div>
+        <h3 class="info-title">Your Battery</h3>
+        <div class="info-content" id="batre">Loading...</div>
+      </div>
+      <div>
+        <h3 class="info-title">Total Requests</h3>
+        <div class="info-content" id="total-requests">0</div>
+      </div>
+</div>
+
+    <div class="section">
+      <h2 class="section-title">Artificial Intelligence</h2>
+      <div class="btn-container">
+        <div class="btn" onclick="toggleDropdown('dropdown1')">
+          /api/llama3
+          <span>↓</span>
+        </div>
+        <div id="dropdown1" class="dropdown-content">
+          <form class="form-group" action="/api/llama3" onsubmit="executeApi(event, '/api/llama3')">
+            <label for="message1">Enter Message:</label>
+            <input type="text" id="message1" name="message" required>
+            <button type="submit">Execute</button>
+          </form>
+        </div>
+        <div class="btn" onclick="toggleDropdown('dropdown2')">
+          /api/Renvy
+          <span>↓</span>
+        </div>
+        <div id="dropdown2" class="dropdown-content">
+          <form class="form-group" action="/api/Renvy" onsubmit="executeApi(event, '/api/Renvy')">
+            <label for="message2">Enter Message:</label>
+            <input type="text" id="message2" name="message" required>
+            <button type="submit">Execute</button>
+          </form>
+        </div>
+        <div class="btn" onclick="toggleDropdown('dropdown3')">
+          /api/DegreeGuru
+          <span>↓</span>
+        </div>
+        <div id="dropdown3" class="dropdown-content">
+          <form class="form-group" action="/api/DegreeGuru" onsubmit="executeApi(event, '/api/DegreeGuru')">
+            <label for="message3">Enter Message:</label>
+            <input type="text" id="message3" name="message" required>
+            <button type="submit">Execute</button>
+          </form>
+        </div>
+<div class="btn" onclick="toggleDropdown('dropdown4')">
+          /api/SmartContract
+          <span>↓</span>
+        </div>
+        <div id="dropdown4" class="dropdown-content">
+          <form class="form-group" action="/api/SmartContract" onsubmit="executeApi(event, '/api/SmartContract')">
+            <label for="message4">Enter Message:</label>
+            <input type="text" id="message4" name="message" required>
+            <button type="submit">Execute</button>
+          </form>
+        </div>
+        <div class="btn" onclick="toggleDropdown('dropdown5')">
+          /api/BlackboxAIChat
+          <span>↓</span>
+        </div>
+        <div id="dropdown5" class="dropdown-content">
+          <form class="form-group" action="/api/BlackboxAIChat" onsubmit="executeApi(event, '/api/BlackboxAIChat')">
+            <label for="message5">Enter Message:</label>
+            <input type="text" id="message5" name="message" required>
+            <button type="submit">Execute</button>
+          </form>
+        </div>
+
+        <div class="btn" onclick="toggleDropdown('dropdown6')">
+          /api/simi
+          <span>↓</span>
+        </div>
+        <div id="dropdown6" class="dropdown-content">
+          <form class="form-group" action="/api/simi" onsubmit="executeApi(event, '/api/simi')">
+            <label for="message6">Enter Message:</label>
+            <input type="text" id="message6" name="message" required>
+            <button type="submit">Execute</button>
+          </form>
+        </div>
+
+        <div class="btn" onclick="toggleDropdown('dropdown7')">
+          /api/letmegpt
+          <span>↓</span>
+        </div>
+        <div id="dropdown7" class="dropdown-content">
+          <form class="form-group" action="/api/letmegpt" onsubmit="executeApi(event, '/api/letmegpt')">
+            <label for="message7">Enter Message:</label>
+            <input type="text" id="message7" name="message" required>
+            <button type="submit">Execute</button>
+          </form>
+      </div>
+      
+        <div class="btn" onclick="toggleDropdown('dropdown8')">
+          /api/gpt4o
+          <span>↓</span>
+        </div>
+        <div id="dropdown8" class="dropdown-content">
+          <form class="form-group" action="/api/gpt4o" onsubmit="executeApi(event, '/api/gpt4o')">
+            <label for="message8">Enter Message:</label>
+            <input type="text" id="message8" name="message" required>
+            <button type="submit">Execute</button>
+          </form>
+      </div>
+      
+              <div class="btn" onclick="toggleDropdown('dropdown9')">
+          /api/txt2img
+          <span>↓</span>
+        </div>
+        <div id="dropdown9" class="dropdown-content">
+          <form class="form-group" action="/api/txt2img" onsubmit="executeApi(event, '/api/txt2img')">
+            <label for="message9">Enter Message:</label>
+            <input type="text" id="message9" name="message" required>
+            <button type="submit">Execute</button>
+          </form>
+      </div>
+      
+      <div class="btn" onclick="toggleDropdown('dropdown10')">
+          /api/pinterest
+          <span>↓</span>
+        </div>
+        <div id="dropdown10" class="dropdown-content">
+          <form class="form-group" action="/api/pinterest" onsubmit="executeApi(event, '/api/pinterest')">
+            <label for="message10">Enter Message:</label>
+            <input type="text" id="message10" name="message" required>
+            <button type="submit">Execute</button>
+          </form>
+      </div>
+      
+      <div class="btn" onclick="toggleDropdown('dropdown11')">
+          /api/gptpic
+          <span>↓</span>
+        </div>
+        <div id="dropdown11" class="dropdown-content">
+          <form class="form-group" action="/api/gptpic" onsubmit="executeApi(event, '/api/gptpic')">
+            <label for="message11">Enter Message:</label>
+            <input type="text" id="message11" name="message" required>
+            <button type="submit">Execute</button>
+          </form>
+      </div>
+      
+      <div class="btn" onclick="toggleDropdown('dropdown12')">
+          /api/halodoc
+          <span>↓</span>
+        </div>
+        <div id="dropdown12" class="dropdown-content">
+          <form class="form-group" action="/api/halodoc" onsubmit="executeApi(event, '/api/halodoc')">
+            <label for="message12">Enter Message:</label>
+            <input type="text" id="message12" name="message" required>
+            <button type="submit">Execute</button>
+          </form>
+      </div>
+            <div class="btn" onclick="toggleDropdown('dropdown13')">
+          /api/Rusdi
+          <span>↓</span>
+        </div>
+        <div id="dropdown13" class="dropdown-content">
+          <form class="form-group" action="/api/Rusdi" onsubmit="executeApi(event, '/api/Rusdi')">
+            <label for="message13">Enter Message:</label>
+            <input type="text" id="message13" name="message" required>
+            <button type="submit">Execute</button>
+          </form>
+      </div>
+<div class="btn" onclick="toggleDropdown('dropdown14')">
+    /api/gptlogic
+    <span>↓</span>
+</div>
+<div id="dropdown14" class="dropdown-content">
+    <form class="form-group" onsubmit="logicgpt(event)">
+        <label for="message14">Enter Message:</label>
+        <input type="text" id="message14" name="message" required>
+        <label for="prompt14">Enter Prompt:</label>
+        <input type="text" id="prompt14" name="prompt" required>
+        <button type="submit">Execute</button>
+    </form>
+</div>
+<div class="btn" onclick="toggleDropdown('dropdown15')">
+          /api/gemini
+          <span>↓</span>
+        </div>
+        <div id="dropdown15" class="dropdown-content">
+          <form class="form-group" action="/api/gemini" onsubmit="executeApi(event, '/api/gemini')">
+            <label for="message15">Enter Message:</label>
+            <input type="text" id="message15" name="message" required>
+            <button type="submit">Execute</button>
+          </form>
+      </div>
+<div class="btn" onclick="toggleDropdown('dropdown16')">
+          /api/prodia
+          <span>↓</span>
+        </div>
+        <div id="dropdown16" class="dropdown-content">
+          <form class="form-group" action="/api/prodia" onsubmit="executeApi(event, '/api/prodia')">
+            <label for="message16">Enter Message:</label>
+            <input type="text" id="message16" name="message" required>
+            <button type="submit">Execute</button>
+          </form>
+      </div>
+       </div>
+      <div id="result" class="result" style="display:none;"></div>
+    </div>
+
+
+    <div class="section">
+      <h2 class="section-title">Usage</h2>
+      <p>To use the endpoints, send a GET request to the desired endpoint with the following query parameter:</p>
+      <ul>
+        <li>message: Your message content</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Response</h2>
+      <p>The response will be in JSON format with the following structure:</p>
+      <pre>
+{
+    "response": "Response data here"
+  }
+      </pre>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">Rules</h2>
+      <div class="info-card">
+        <div>
+          <ol>
+            <li>Don't flood requests</li>
+            <li>The owner can change the conditions on this website at any time to maintain the quality of the website.</li>
+            <li>All the features here are free and unlimited request.</li>
+            <li>The owner is not responsible for what you do when using this website.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  let totalRequests = localStorage.getItem('totalRequests');
+  if (totalRequests === null) {
+    totalRequests = 0;
+  } else {
+    totalRequests = parseInt(totalRequests, 10);
+  }
+
+  function updateTotalRequests() {
+    document.getElementById('total-requests').textContent = totalRequests;
+    localStorage.setItem('totalRequests', totalRequests);
+  }
+
+  // Fetch IP Address
+  fetch('https://api.ipify.org?format=json')
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('ip').textContent = data.ip;
+    });
+
+  // Update Time
+  function updateTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const timeString = `${hours}:${minutes}:${seconds}`;
+    document.getElementById('jam').textContent = timeString;
+  }
+  setInterval(updateTime, 1000);
+  updateTime();
+
+  // Update Date
+  function updateDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const dateString = `${day}-${month}-${year}`;
+    document.getElementById('tanggal').textContent = dateString;
+  }
+  updateDate();
+
+  // Fetch Battery Status
+  navigator.getBattery().then(function(battery) {
+    function updateBatteryStatus() {
+      const level = Math.round(battery.level * 100) + '%';
+      document.getElementById('batre').textContent = level;
+    }
+    updateBatteryStatus();
+    battery.addEventListener('levelchange', updateBatteryStatus);
+  });
+
+  // Toggle dropdown content visibility
+  window.toggleDropdown = function(dropdownId) {
+    const dropdown = document.getElementById(dropdownId);
+    dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  // Execute API request
+  window.executeApi = function(event, endpoint) {
+    event.preventDefault();
+    const message = event.target.querySelector('input[name="message"]').value;
+    const query = `?message=${encodeURIComponent(message)}`;
+    fetch(endpoint + query)
+      .then(response => response.json())
+      .then(data => {
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = JSON.stringify(data, null, 2);
+        resultElement.style.display = 'block';
+        totalRequests++;
+        updateTotalRequests();
+        const baseUrl = 'https://api.pan.alvianuxio.my.id';
+        const requestUrl = baseUrl + endpoint + query;
+        const requestUrlElement = document.createElement('p');
+        requestUrlElement.textContent = `Request URL: ${requestUrl}`;
+        resultElement.appendChild(requestUrlElement);
+      })
+      .catch(error => {
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = 'Error: ' + error;
+        resultElement.style.display = 'block';
+      });
+  }
+
+  window.logicgpt = function(event) {
+    event.preventDefault();
+    const form = event.target;
+    const message = form.querySelector('input[name="message"]').value;
+    const prompt = form.querySelector('input[name="prompt"]').value;
+    const baseUrl = 'https://api.pan.alvianuxio.my.id';
+    const endpoint = '/api/gptlogic';
+    const query = `?message=${encodeURIComponent(message)}&prompt=${encodeURIComponent(prompt)}`;
+    const url = baseUrl + endpoint + query;
+
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = JSON.stringify(data, null, 2);
+        resultElement.style.display = 'block';
+        totalRequests++;
+        updateTotalRequests();
+        const requestUrlElement = document.createElement('p');
+        requestUrlElement.textContent = `Request URL: ${url}`;
+        resultElement.appendChild(requestUrlElement);
+      })
+      .catch(error => {
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = 'Error: ' + error;
+        resultElement.style.display = 'block';
+      });
+  }
+
+  // Show main content on View Docs button click
+  window.viewDocs = function() {
+    document.querySelector('.about-me').style.display = 'none';
+    document.querySelector('.content').style.display = 'block';
+    const audio = new Audio('https://files.catbox.moe/q4x9k4.webm');
+    audio.play();
+  }
+
+  // Update total requests on initial load
+  updateTotalRequests();
+});
+</script>
+</body>
+</html>
