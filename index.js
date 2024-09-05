@@ -5,7 +5,7 @@ const express = require("express"), cors = require("cors"), secure = require("ss
 const Ytdl = require('node-yt-dl');
 const ytdl = require('node-yt-dl');
 const path = require('path');
-const chalk = require('chalk')
+const chalk = (await import('chalk')).default;
 const { FajarNews, BBCNews, metroNews, CNNNews, iNews, KumparanNews, TribunNews, DailyNews, DetikNews, OkezoneNews, CNBCNews, KompasNews, SindoNews, TempoNews, IndozoneNews, AntaraNews, RepublikaNews, VivaNews, KontanNews, MerdekaNews, KomikuSearch, AniPlanetSearch, KomikFoxSearch, KomikStationSearch, MangakuSearch, KiryuuSearch, KissMangaSearch, KlikMangaSearch, PalingMurah, LayarKaca21, AminoApps, Mangatoon, WAModsSearch, Emojis, CoronaInfo, JalanTikusMeme,Cerpen, Quotes, Couples, Darkjokes } = require("dhn-api");
 //===
 const { JSDOM } = require('jsdom')
@@ -5390,10 +5390,8 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   console.error(err.stack); res.status(502).sendFile(path.join(__dirname,'error.html'));
 });
-app.listen(port, () => {
-	const data = axios.get(`https://api.telegram.org/bot7161904988:AAGT0tz1SzCb1_YqQjPHNZMY-IYfD0NxR5Q/sendmessage?text=server on wak running di port ${port}&chat_id=6769538149`);
-return data.data
-  console.log(`Server berjalan di ${port}`);
+app.listen(port, () => {	
+  console.log(`Server online cik di port ${port} wenak poll`);
 function timenya(seconds) {
   const d = Math.floor(seconds / (3600 * 24));
   const h = Math.floor((seconds % (3600 * 24)) / 3600);
