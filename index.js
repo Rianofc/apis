@@ -4584,7 +4584,6 @@ app.get('/api/remini', async (req, res) => {
     if (!img) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
-	try{
 	const yourn = await bufferlah(img) 
 		danz.tools.remini(yourn).then(data => {			
   res.status(200).json({
