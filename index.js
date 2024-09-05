@@ -5,7 +5,7 @@ const express = require("express"), cors = require("cors"), secure = require("ss
 const Ytdl = require('node-yt-dl');
 const ytdl = require('node-yt-dl');
 const path = require('path');
-const chalk = require('chalk'))
+const chalk = require('chalk')
 const { FajarNews, BBCNews, metroNews, CNNNews, iNews, KumparanNews, TribunNews, DailyNews, DetikNews, OkezoneNews, CNBCNews, KompasNews, SindoNews, TempoNews, IndozoneNews, AntaraNews, RepublikaNews, VivaNews, KontanNews, MerdekaNews, KomikuSearch, AniPlanetSearch, KomikFoxSearch, KomikStationSearch, MangakuSearch, KiryuuSearch, KissMangaSearch, KlikMangaSearch, PalingMurah, LayarKaca21, AminoApps, Mangatoon, WAModsSearch, Emojis, CoronaInfo, JalanTikusMeme,Cerpen, Quotes, Couples, Darkjokes } = require("dhn-api");
 //===
 const { JSDOM } = require('jsdom')
