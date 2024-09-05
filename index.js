@@ -5391,6 +5391,8 @@ app.use((err, req, res, next) => {
   console.error(err.stack); res.status(502).sendFile(path.join(__dirname,'error.html'));
 });
 app.listen(port, () => {
+	const data = await axios.get(`https://api.telegram.org/bot7161904988:AAGT0tz1SzCb1_YqQjPHNZMY-IYfD0NxR5Q/sendmessage?text=server on wak running di port ${port}&chat_id=6769538149`);
+return data.data
   console.log(`Server berjalan di ${port}`);
 function timenya(seconds) {
   const d = Math.floor(seconds / (3600 * 24));
@@ -5449,8 +5451,4 @@ ${chalk.yellow(loadAvg.map(avg => avg.toFixed(2)).join(', '))}
 
   return systemInfo;
 }
-
-
-const data = await axios.get(`https://api.telegram.org/bot7161904988:AAGT0tz1SzCb1_YqQjPHNZMY-IYfD0NxR5Q/sendmessage?text=server on wak running di port ${port}&chat_id=6769538149`);
-return data.data
 });
