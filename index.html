@@ -2,6 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<link rel="shortcut icon" href="https://files.catbox.moe/cngnk1.jpg" type="image/x-icon">
+<link rel="icon" href="https://files.catbox.moe/cngnk1.jpg" />
+<meta property="og:image" content="https://files.catbox.moe/cngnk1.jpg">    
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>API Documentation</title>
 <style>
@@ -196,13 +199,13 @@
   <div class="about-me">
     <h1>Pan Pan Api</h1>
     <div class="profile-pic-container">
-      <img src="https://files.catbox.moe/fgq7jl.jpg" alt="Profile Picture" class="profile-pic">
+      <img src="https://files.catbox.moe/cngnk1.jpg" alt="Profile Picture" class="profile-pic">
       <div class="rotating-lines"></div>
     </div>
     <p>Welcome To My Rest Api</p>
     <button class="view-docs-btn" onclick="viewDocs()">View Docs</button>
-    <button class="whatsapp-chat-btn" onclick="location.href='https://wa.me/62857021072505'">Chat WhatsApp</button>
-    <button class="whatsapp-channel-btn" onclick="location.href='https://whatsapp.com/channel/0029Vac0DjG6xCSJT0HTV61w'">Channel WhatsApp</button>
+    <button class="whatsapp-chat-btn" onclick="location.href='https://wa.me/62815293692739'">Chat WhatsApp</button>
+    <button class="whatsapp-channel-btn" onclick="location.href='https://whatsapp.com/channel/0029VabO7pL8KMqo8HUAis1a'">Channel WhatsApp</button>
   </div>
   <div class="content">
     <h1>API Documentation</h1>
@@ -252,7 +255,7 @@
           <span>↓</span>
         </div>
         <div id="dropdown2" class="dropdown-content">
-          <form class="form-group" action="/api/Renvy" onsubmit="executeApi(event, '/api/Renvy')">
+          <form class="form-group" action="/api/mora" onsubmit="executeApi(event, '/api/mora')">
             <label for="message2">Enter Message:</label>
             <input type="text" id="message2" name="message" required>
             <button type="submit">Execute</button>
@@ -415,7 +418,7 @@
           <span>↓</span>
         </div>
         <div id="dropdown16" class="dropdown-content">
-          <form class="form-group" action="/api/prodia" onsubmit="executeApi(event, '/api/prodia')">
+          <form class="form-group" action="/api/wanted" onsubmit="imageexec(event, '/api/prodia')">
             <label for="message16">Enter Message:</label>
             <input type="text" id="message16" name="message" required>
             <button type="submit">Execute</button>
@@ -439,6 +442,7 @@
       <p>The response will be in JSON format with the following structure:</p>
       <pre>
 {
+    "creator": "rian"  
     "response": "Response data here"
   }
       </pre>
@@ -545,13 +549,36 @@ document.addEventListener('DOMContentLoaded', function() {
         resultElement.style.display = 'block';
       });
   }
-
+window.imagexec = function(event, endpoint) {
+    event.preventDefault();
+    const message = event.target.querySelector('input[name="message"]').value;
+    const query = `?url=${encodeURIComponent(message)}&apikey=free`;
+    fetch(endpoint + query)
+      .then(response => response.json())
+      .then(data => {
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = JSON.stringify(data, null, 2);
+        resultElement.style.display = 'block';
+        totalRequests++;
+        updateTotalRequests();
+        const baseUrl = 'https://apikita.exonity.xyz';
+        const requestUrl = baseUrl + endpoint + query;
+        const requestUrlElement = document.createElement('p');
+        requestUrlElement.textContent = `Request URL: ${requestUrl}`;
+        resultElement.appendChild(requestUrlElement);
+      })
+      .catch(error => {
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = 'Error: ' + error;
+        resultElement.style.display = 'block';
+      });
+  }
   window.logicgpt = function(event) {
     event.preventDefault();
     const form = event.target;
     const message = form.querySelector('input[name="message"]').value;
     const prompt = form.querySelector('input[name="prompt"]').value;
-    const baseUrl = 'https://api.pan.alvianuxio.my.id';
+    const baseUrl = 'https://apikita.exonity.xyz';
     const endpoint = '/api/gptlogic';
     const query = `?message=${encodeURIComponent(message)}&prompt=${encodeURIComponent(prompt)}`;
     const url = baseUrl + endpoint + query;
@@ -584,7 +611,7 @@ document.addEventListener('DOMContentLoaded', function() {
   window.viewDocs = function() {
     document.querySelector('.about-me').style.display = 'none';
     document.querySelector('.content').style.display = 'block';
-    const audio = new Audio('https://files.catbox.moe/q4x9k4.webm');
+    const audio = new Audio('https://apikita.exonity.xyz/file/tomp3.cc - Dj kasih tinggal bang dika by arif sopan.mp3');
     audio.play();
   }
 
