@@ -101,6 +101,7 @@ async function takeScreenshot(url, deviceName) {
   const screenshotBuffer = await page.screenshot();
   await browser.close();
   return screenshotBuffer;
+}
 // Contoh endpoint untuk menggunakan API
 // Jadwal reset penggunaan API key setiap 24 jam
 nodeCron.schedule('*/5 * * * *', () => {
