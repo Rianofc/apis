@@ -17,6 +17,7 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
   />
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -249,7 +250,6 @@
       </div>
       <h1>Visitor</h1><span class="count" id="visits"></span><br><span class="last-data" id="updatedAtt"></span>
 </div>
-
     <div class="section">
       <h2 class="section-title">Artificial Intelligence</h2>
       <div class="btn-container">
@@ -480,9 +480,10 @@
 <h3 class="head-title">Navigation</h3>
 <ul class="cloud" role="navigation" aria-label="Webdev tag cloud">
    <li><a href="https://saweria.co/RAINXYZ">Donate</a></li>
+	<li><a onclick="enterFullScreen()">Change Screen</a></li>
 	<li><a onclick="tos()">Chat Box💬</a></li>
 	<form class="form-group" action="tos()" onsubmit="tos()">
-	<button type="submit">Chat Box💬</button>
+
 </ul>
 </p>
 	</div>
@@ -523,6 +524,13 @@ xhr.onload = function() {
 
 }
 xhr.send();
+	function enterFullScreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(err => {
+                alert(`Error attempting to enable full-screen mode: ${err.message}`);
+            });
+        }
+    }
   // Fetch IP Address
   fetch('https://api.ipify.org?format=json')
     .then(response => response.json())
@@ -552,7 +560,43 @@ xhr.send();
     document.getElementById('tanggal').textContent = dateString;
   }
   updateDate();
-
+document.addEventListener("DOMContentLoaded", function() {
+  Swal.fire({
+  title: "error",
+  text: "Join Saluran Whatsapp Kami Untuk Melihat Update Fitur Terbaru ya ><",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#0bd923",
+  cancelButtonColor: "#0bd9d5",
+  cancelButtonText: "skip",
+  confirmButtonText: "Ok",
+  color: "#716add",
+  backdrop: `
+    rgba(0,0,123,0.4)
+    url("https://telegra.ph/file/df3e1647b1350dfbcdcb7.jpg")
+    bottom
+    no-repeat
+  `,
+showClass: {
+    popup: `
+      animate__animated
+      animate__fadeInUp
+      animate__slow
+    `
+  },
+  hideClass: {
+    popup: `
+      animate__animated
+      animate__fadeOutDown
+      animate__faster
+    `
+  }
+}).then((result) => {
+  if (result.isConfirmed) {
+    window.location.href = "https://whatsapp.com/channel/0029VabO7pL8KMqo8HUAis1a";
+  }
+});
+});
   // Fetch Battery Status
   navigator.getBattery().then(function(battery) {
     function updateBatteryStatus() {
