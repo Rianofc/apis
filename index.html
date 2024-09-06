@@ -314,7 +314,7 @@
           <span>↓</span>
         </div>
         <div id="dropdown6" class="dropdown-content">
-          <form class="form-group" action="/api/simi" onsubmit="executeApi(event, '/api/simi')">
+          <form class="form-group" action="/api/simi" onsubmit="executeApisimi(event, '/api/simi')">
             <label for="message6">Enter Message:</label>
             <input type="text" id="message6" name="message" required>
             <button type="submit">Execute</button>
@@ -362,7 +362,7 @@
           <span>↓</span>
         </div>
         <div id="dropdown10" class="dropdown-content">
-          <form class="form-group" action="/api/pinterest" onsubmit="executeApi(event, '/api/pinterest')">
+          <form class="form-group" action="/api/pinterest" onsubmit="executeApijir(event, '/api/pinterest')">
             <label for="message10">Enter Message:</label>
             <input type="text" id="message10" name="message" required>
             <button type="submit">Execute</button>
@@ -421,7 +421,7 @@
           <span>↓</span>
         </div>
         <div id="dropdown15" class="dropdown-content">
-          <form class="form-group" action="/api/gemini" onsubmit="executeApi(event, '/api/gemini')">
+          <form class="form-group" action="/api/gemini" onsubmit="gemini(event, '/api/gemini')">
             <label for="message15">Enter Message:</label>
             <input type="text" id="message15" name="message" required>
             <label for="apikey12">Enter apikey:</label>
@@ -629,8 +629,7 @@ showClass: {
   window.executeApi = function(event, endpoint) {
     event.preventDefault();
     const message = event.target.querySelector('input[name="message"]').value;
-    const apikey = event.target.querySelector('input[name="apikey"]').value;
-    const query = `?message=${encodeURIComponent(message)}&apikey=${encodeURIComponent(apikey)}`;
+const query = `?message=${encodeURIComponent(message)}`;
     fetch(endpoint + query)
       .then(response => response.json())
       .then(data => {
@@ -651,6 +650,33 @@ showClass: {
         resultElement.style.display = 'block';
       });
   }
+	// ke 1
+window.executeApijir = function(event, endpoint) {
+    event.preventDefault();
+    const message = event.target.querySelector('input[name="message"]').value;
+    const apikey = event.target.querySelector('input[name="apikey"]').value;
+    const query = `?query=${encodeURIComponent(message)}&apikey=${encodeURIComponent(apikey)}`;
+    fetch(endpoint + query)
+      .then(response => response.json())
+      .then(data => {
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = JSON.stringify(data, null, 2);
+        resultElement.style.display = 'block';
+        totalRequests++;
+        updateTotalRequests();
+        const baseUrl = 'https://apikita.exonity.xyz';
+        const requestUrl = baseUrl + endpoint + query;
+        const requestUrlElement = document.createElement('p');
+        requestUrlElement.textContent = `Request URL: ${requestUrl}`;
+        resultElement.appendChild(requestUrlElement);
+      })
+      .catch(error => {
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = 'Error: ' + error;
+        resultElement.style.display = 'block';
+      });
+  }
+	// ke 2
 window.imagexec = function(event, endpoint) {
     event.preventDefault();
     const message = event.target.querySelector('input[name="message"]').value;
@@ -676,6 +702,33 @@ window.imagexec = function(event, endpoint) {
         resultElement.style.display = 'block';
       });
   }
+	//h
+window.gemini = function(event, endpoint) {
+    event.preventDefault();
+    const message = event.target.querySelector('input[name="message"]').value;
+    const apikey = event.target.querySelector('input[name="apikey"]').value;
+    const query = `?message=${encodeURIComponent(message)}&apikey=${encodeURIComponent(apikey)}`;
+    fetch(endpoint + query)
+      .then(response => response.json())
+      .then(data => {
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = JSON.stringify(data, null, 2);
+        resultElement.style.display = 'block';
+        totalRequests++;
+        updateTotalRequests();
+        const baseUrl = 'https://apikita.exonity.xyz';
+        const requestUrl = baseUrl + endpoint + query;
+        const requestUrlElement = document.createElement('p');
+        requestUrlElement.textContent = `Request URL: ${requestUrl}`;
+        resultElement.appendChild(requestUrlElement);
+      })
+      .catch(error => {
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = 'Error: ' + error;
+        resultElement.style.display = 'block';
+      });
+	    }
+	// bats
   window.logicgpt = function(event) {
     event.preventDefault();
     const form = event.target;
