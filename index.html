@@ -515,6 +515,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('total-requests').textContent = totalRequests;
     localStorage.setItem('totalRequests', totalRequests);
   }
+	// tos
+	window.tos = function() {
+    swal.fire({
+      html: `<iframe src="https://my.cbox.ws/Exonity_api"></iframe>`,
+      confirmButtonText: 'tutup'
+    })
+  };
+	// visitor total 
 var xhr = new XMLHttpRequest();
 xhr.open("GET", "https://visitor-counter.kentodlahh11.workers.dev/visit?url=https://apikita.exonity.xyz");
 xhr.responseType = "json";
@@ -526,7 +534,8 @@ xhr.onload = function() {
 
 }
 xhr.send();
-	function enterFullScreen() {
+	// batas
+	window.enterFullScreen = function() {
         if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen().catch(err => {
                 alert(`Error attempting to enable full-screen mode: ${err.message}`);
@@ -616,12 +625,6 @@ showClass: {
     const dropdown = document.getElementById(dropdownId);
     dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
   }
-function tos() {
-    swal.fire({
-      html: `<iframe src="https://my.cbox.ws/Exonity_api"></iframe>`,
-      confirmButtonText: 'tutup'
-    })
-  };
   // Execute API request
   window.executeApi = function(event, endpoint) {
     event.preventDefault();
