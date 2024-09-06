@@ -1,6 +1,6 @@
 {
   "name": "exonity-apis",
-  "version": "1.8.0",
+  "version": "3.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -45,6 +45,10 @@
     "ocr-space-api-wrapper": "^2.2.0", 
     "g-i-s": "^2.1.6",
     "undici": "^6.6.2",
+    "jsdom": "^25.0.0",
+    "chalk": "^4.0.0",
+    "node-cache": "^5.1.2",
+    "playwright": "^1.46.1",
     "yt-search": "^2.10.3",
     "ytdl-core": "^4.11.5",
     "dhn-api": "^1.1.3",
