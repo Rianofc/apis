@@ -51,6 +51,8 @@ const { ig } = require("./function/scraper/Ig.js")
 const danz = require('d-scrape');
 const fileType = require('file-type')
 const multer = require('multer');
+const { chromium, devices } = require('playwright');
+const NodeCache = require('node-cache');
 const ocrapi = require("ocr-space-api-wrapper");
 const axios = require('axios')
 const nodeCron = require('node-cron');
@@ -87,6 +89,18 @@ function checkApiKeyLimit(apiKey) {
 }
 
 // Endpoint untuk mengecek limit penggunaan API key
+const cache = new NodeCache({ stdTTL: 3600 });
+// Fungsi untuk mengambil screenshot
+async function takeScreenshot(url, deviceName) {
+  const browser = await chromium.launch();
+  const context = await browser.newContext({
+    ...devices[deviceName], // Mengatur perangkat jika ada
+  });
+  const page = await context.newPage();
+  await page.goto(url);
+  const screenshotBuffer = await page.screenshot();
+  await browser.close();
+  return screenshotBuffer;
 // Contoh endpoint untuk menggunakan API
 // Jadwal reset penggunaan API key setiap 24 jam
 nodeCron.schedule('*/5 * * * *', () => {
@@ -4956,9 +4970,13 @@ app.get('/api/ssweb', async (req, res) => {
     if (!message) {
       return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
     }
-  let ayaaa = await bufferlah(`http://47.237.19.147:3000/screenshot?url=${message}`) 
-            res.set('Content-Type', 'image/png');
-        res.send(ayaaa);
+  let ayaaa = await takeScreenshot(message) 
+	const dat = await exon(ayaaa) 
+            res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY",
+      result: dat 
+    });
 });
 
 app.get('/api/asupan', async (req, res) => {
