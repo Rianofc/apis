@@ -6,7 +6,20 @@
 <link rel="icon" href="https://files.catbox.moe/cngnk1.jpg" />
 <meta property="og:image" content="https://files.catbox.moe/cngnk1.jpg">    
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="restapi,webapi,rapidapi,deepai,chatgpt,whatapp,wabot,waifu,domain,minggu,anime">
+<meta name="description" content="Free rest Api's 😼">
 <title>Exonity API Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <script src="glitch.js" type="text/javascript"></script>
+   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <style>
   body {
     font-family: 'Roboto', sans-serif;
@@ -234,6 +247,7 @@
         <h3 class="info-title">Total Requests</h3>
         <div class="info-content" id="total-requests">0</div>
       </div>
+      <h1>Visitor</h1><span class="count" id="visits"></span><br><span class="last-data" id="updatedAtt"></span>
 </div>
 
     <div class="section">
@@ -410,16 +424,18 @@
           <form class="form-group" action="/api/gemini" onsubmit="executeApi(event, '/api/gemini')">
             <label for="message15">Enter Message:</label>
             <input type="text" id="message15" name="message" required>
+            <label for="apikey12">Enter apikey:</label>
+            <input type="text" id="apikey12" name="apikey" required>
             <button type="submit">Execute</button>
           </form>
       </div>
 <div class="btn" onclick="toggleDropdown('dropdown16')">
-          /api/prodia
+          /api/wanted
           <span>↓</span>
         </div>
         <div id="dropdown16" class="dropdown-content">
           <form class="form-group" action="/api/wanted" onsubmit="imageexec(event, '/api/prodia')">
-            <label for="message16">Enter Message:</label>
+            <label for="message16">Enter Url Image:</label>
             <input type="text" id="message16" name="message" required>
             <button type="submit">Execute</button>
           </form>
@@ -460,6 +476,21 @@
           </ol>
         </div>
       </div>
+         </table>
+	 </div>
+		        
+<p>
+<h3 class="head-title">Navigation</h3>
+<ul class="cloud" role="navigation" aria-label="Webdev tag cloud">
+   <li><a href="https://saweria.co/RAINXYZ">Donate</a></li>
+   <li><a onclick="openFullscreen()">Change Screen</a></li>
+	<li><a onclick="tos()">Chat Box💬</a></li>
+	
+</ul>
+</p>
+	</div>
+    <footer>Exonity apis <a href="/" style="color:crimson"</a>2024</
+	footer>
     </div>
   </div>
 </div>
@@ -477,7 +508,17 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('total-requests').textContent = totalRequests;
     localStorage.setItem('totalRequests', totalRequests);
   }
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "https://visitor-counter.kentodlahh11.workers.dev/visit?url=https://apikita.exonity.xyz");
+xhr.responseType = "json";
+xhr.onload = function() {
+    document.getElementById('visits').innerHTML = `<b>${this.response.today} / ${this.response.total}</b>`;
+    document.getElementById('last').innerHTML = `${this.response.updatedAt}`;
 
+  document.getElementById('lastt').innerHTML = `${this.response.updatedAtt}`;
+
+}
+xhr.send();
   // Fetch IP Address
   fetch('https://api.ipify.org?format=json')
     .then(response => response.json())
@@ -523,12 +564,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const dropdown = document.getElementById(dropdownId);
     dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
   }
-
+function tos() {
+    swal.fire({
+      html: `<iframe src="https://my.cbox.ws/Exonity_api"></iframe>`,
+      confirmButtonText: 'tutup'
+    })
+  };
   // Execute API request
   window.executeApi = function(event, endpoint) {
     event.preventDefault();
     const message = event.target.querySelector('input[name="message"]').value;
-    const query = `?message=${encodeURIComponent(message)}`;
+    const apikey = event.target.querySelector('input[name="apikey"]').value;
+    const query = `?message=${encodeURIComponent(message)}&apikey=${encodeURIComponent(apikey)}`;
     fetch(endpoint + query)
       .then(response => response.json())
       .then(data => {
@@ -552,7 +599,8 @@ document.addEventListener('DOMContentLoaded', function() {
 window.imagexec = function(event, endpoint) {
     event.preventDefault();
     const message = event.target.querySelector('input[name="message"]').value;
-    const query = `?url=${encodeURIComponent(message)}&apikey=free`;
+  const apikey = event.target.querySelector('input[name="apikey"]').value;
+    const query = `?url=${encodeURIComponent(message)}&apikey=${encodeURIComponent(apikey)}`;
     fetch(endpoint + query)
       .then(response => response.json())
       .then(data => {
